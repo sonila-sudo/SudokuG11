@@ -6,13 +6,16 @@
 - **Type:** Desktop GUI Application
 
 ## 🛠 Technologies
-- **Language:** C# (.NET 6+ / .NET 8)
+- **Language:** C# (.NET 8.0)
 - **GUI Framework:** Windows Forms (WinForms)
-- **Networking:** TCP Socket (`System.Net.Sockets`)
-- **Data Format:** Plain Text Protocol (Custom string parsing)
+- **Networking:** TCP Socket (`System.Net.Sockets` - `TcpListener`, `TcpClient`)
+- **Data Format:** JSON (`System.Text.Json`)
+- **Concurrency:** Asynchronous Programming (`async/await`, `Task`)
 
 ## 📖 Description
-A multiplayer Sudoku desktop application utilizing a Client-Server architecture. Players can connect via LAN/Internet, match with opponents, and compete in real-time. The application is built entirely with built-in .NET libraries to ensure a clean, basic implementation. It strictly follows network synchronization using custom plain text protocols, ensuring fair play with an active countdown timer for each match.
+A modern multiplayer Sudoku desktop application utilizing a Client-Server architecture. Players can connect via LAN/Internet, pair up with opponents through a matchmaking queue, and compete in real-time. 
+
+The project leverages the power of .NET 8 asynchronous programming (`async/await`) to handle multiple concurrent client connections efficiently while ensuring a completely responsive user interface (no UI freeze). Communication between the Central Server and Clients is standardized using structured **JSON** payloads, allowing for scalable, safe, and robust data serialization for board moves, synchronized countdown timers, and game state changes.
 
 ## 📂 Repository Structure
 As requested, this repository follows the strict project structure:
