@@ -3,7 +3,7 @@
   "WorkspaceRootPath": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|d:\\uth\\n\u0103m 2 k\u1EF3 2\\l\u1EADp tr\u00ECnh m\u1EA1ng\\sudoku\\code\\sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
@@ -79,8 +79,7 @@
               "ToolTip": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\GameForm.cs [Design]",
               "RelativeToolTip": "Sudoku\\GameForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T08:06:49.95Z",
-              "EditorCaption": " [Design]"
+              "WhenOpened": "2026-05-26T08:06:49.95Z"
             }
           ]
         }
