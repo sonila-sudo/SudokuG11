@@ -17,7 +17,6 @@ namespace Sudoku
             InitializeComponent();
         }
 
-        // Khai báo mảng 2 chiều để quản lý 81 ô TextBox sau này dễ truy cập
         private TextBox[,] sudokuCells = new TextBox[9, 9];
 
         private void GameForm_Load(object sender, EventArgs e)
@@ -28,12 +27,10 @@ namespace Sudoku
         private void CreateSudokuGrid()
         {
             int cellSize = 50;
-            int borderThickness = 3; // Độ dày của khung viền ngoài cùng (3 pixel)
+            int borderThickness = 3; 
 
             pnlBoard.BackColor = Color.Navy;
 
-            // Tự động tính toán và ép kích thước Panel vừa khít hoàn hảo (Không lo bị cắt xén)
-            // 9 ô (450px) + 6 viền mỏng (6px) + 2 viền đậm (6px) + 2 viền ngoài (6px) = 470px
             pnlBoard.Size = new Size(470, 470);
 
             for (int row = 0; row < 9; row++)
@@ -49,7 +46,6 @@ namespace Sudoku
                     int thickLineX = (col / 3) * 3;
                     int thickLineY = (row / 3) * 3;
 
-                    // Đẩy tọa độ x và y cộng thêm borderThickness để tạo viền ngoài
                     txt.Location = new Point(
                         (col * cellSize) + thinLineX + thickLineX + borderThickness,
                         (row * cellSize) + thinLineY + thickLineY + borderThickness
