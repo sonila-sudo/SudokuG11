@@ -48,5 +48,15 @@ namespace Sudoku
         {
 
         }
+
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblStatus_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
