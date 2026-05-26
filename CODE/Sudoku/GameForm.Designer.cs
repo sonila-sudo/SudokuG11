@@ -30,67 +30,86 @@
         {
             pageSetupDialog1 = new PageSetupDialog();
             pnlBoard = new Panel();
-            lblTime = new Label();
+            lblTimer = new Label();
             lblMyName = new Label();
             lblOpponentName = new Label();
             btnSurrender = new Button();
+            lblGameStatus = new Label();
             SuspendLayout();
             // 
             // pnlBoard
             // 
-            pnlBoard.Location = new Point(89, 28);
+            pnlBoard.Location = new Point(29, 36);
             pnlBoard.Name = "pnlBoard";
             pnlBoard.Size = new Size(450, 450);
             pnlBoard.TabIndex = 0;
             pnlBoard.Paint += pnlBoard_Paint;
             // 
-            // lblTime
+            // lblTimer
             // 
-            lblTime.AutoSize = true;
-            lblTime.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lblTime.Location = new Point(550, 212);
-            lblTime.Name = "lblTime";
-            lblTime.Size = new Size(120, 54);
-            lblTime.TabIndex = 0;
-            lblTime.Text = "00:00";
-            lblTime.Click += label1_Click;
+            lblTimer.AutoSize = true;
+            lblTimer.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTimer.Location = new Point(523, 133);
+            lblTimer.Name = "lblTimer";
+            lblTimer.Size = new Size(120, 54);
+            lblTimer.TabIndex = 0;
+            lblTimer.Text = "05:00";
+            lblTimer.Click += label1_Click;
             // 
             // lblMyName
             // 
             lblMyName.AutoSize = true;
-            lblMyName.Location = new Point(550, 116);
+            lblMyName.Location = new Point(550, 25);
             lblMyName.Name = "lblMyName";
-            lblMyName.Size = new Size(124, 20);
+            lblMyName.Size = new Size(74, 20);
             lblMyName.TabIndex = 0;
-            lblMyName.Text = "Bạn: Chưa kết nối";
+            lblMyName.Text = "Bạn: [Tên]";
             // 
             // lblOpponentName
             // 
             lblOpponentName.AutoSize = true;
-            lblOpponentName.Location = new Point(545, 366);
+            lblOpponentName.Location = new Point(526, 277);
             lblOpponentName.Name = "lblOpponentName";
-            lblOpponentName.Size = new Size(138, 20);
+            lblOpponentName.Size = new Size(98, 20);
             lblOpponentName.TabIndex = 1;
-            lblOpponentName.Text = "Đối thủ: Đang chờ...";
+            lblOpponentName.Text = "Đối thủ: [Tên]";
             // 
             // btnSurrender
             // 
-            btnSurrender.Location = new Point(550, 460);
+            btnSurrender.BackColor = Color.Salmon;
+            btnSurrender.FlatAppearance.MouseOverBackColor = Color.MistyRose;
+            btnSurrender.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSurrender.ForeColor = Color.Black;
+            btnSurrender.Location = new Point(0, 516);
             btnSurrender.Name = "btnSurrender";
-            btnSurrender.Size = new Size(137, 31);
+            btnSurrender.Size = new Size(150, 31);
             btnSurrender.TabIndex = 0;
             btnSurrender.Text = "Đầu hàng / Thoát";
-            btnSurrender.UseVisualStyleBackColor = true;
+            btnSurrender.UseVisualStyleBackColor = false;
+            // 
+            // lblGameStatus
+            // 
+            lblGameStatus.AutoSize = true;
+            lblGameStatus.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblGameStatus.ForeColor = Color.Red;
+            lblGameStatus.Location = new Point(510, 398);
+            lblGameStatus.Name = "lblGameStatus";
+            lblGameStatus.Size = new Size(161, 20);
+            lblGameStatus.TabIndex = 0;
+            lblGameStatus.Text = "Trận đấu đang diễn ra";
+            lblGameStatus.Click += lblGameStatus_Click;
             // 
             // GameForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(682, 503);
+            BackColor = SystemColors.GradientInactiveCaption;
+            ClientSize = new Size(709, 546);
+            Controls.Add(lblGameStatus);
             Controls.Add(btnSurrender);
             Controls.Add(lblOpponentName);
             Controls.Add(lblMyName);
-            Controls.Add(lblTime);
+            Controls.Add(lblTimer);
             Controls.Add(pnlBoard);
             Name = "GameForm";
             Text = "Form2";
@@ -103,9 +122,10 @@
 
         private PageSetupDialog pageSetupDialog1;
         private Panel pnlBoard;
-        private Label lblTime;
+        private Label lblTimer;
         private Label lblMyName;
         private Label lblOpponentName;
         private Button btnSurrender;
+        private Label lblGameStatus;
     }
 }

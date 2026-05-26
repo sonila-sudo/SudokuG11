@@ -36,12 +36,13 @@
             txtName = new TextBox();
             btnConnect = new Button();
             lblStatus = new Label();
+            lblTitle = new Label();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(86, 59);
+            label1.Location = new Point(86, 143);
             label1.Name = "label1";
             label1.Size = new Size(69, 20);
             label1.TabIndex = 0;
@@ -51,7 +52,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(111, 112);
+            label2.Location = new Point(117, 186);
             label2.Name = "label2";
             label2.Size = new Size(38, 20);
             label2.TabIndex = 2;
@@ -60,7 +61,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(45, 164);
+            label3.Location = new Point(45, 232);
             label3.Name = "label3";
             label3.Size = new Size(110, 20);
             label3.TabIndex = 4;
@@ -69,7 +70,8 @@
             // 
             // txtIP
             // 
-            txtIP.Location = new Point(175, 56);
+            txtIP.BorderStyle = BorderStyle.FixedSingle;
+            txtIP.Location = new Point(175, 141);
             txtIP.Name = "txtIP";
             txtIP.Size = new Size(125, 27);
             txtIP.TabIndex = 5;
@@ -78,7 +80,8 @@
             // 
             // txtPort
             // 
-            txtPort.Location = new Point(175, 112);
+            txtPort.BorderStyle = BorderStyle.FixedSingle;
+            txtPort.Location = new Point(175, 184);
             txtPort.Name = "txtPort";
             txtPort.Size = new Size(125, 27);
             txtPort.TabIndex = 6;
@@ -87,7 +90,8 @@
             // 
             // txtName
             // 
-            txtName.Location = new Point(175, 164);
+            txtName.BorderStyle = BorderStyle.FixedSingle;
+            txtName.Location = new Point(175, 230);
             txtName.Name = "txtName";
             txtName.Size = new Size(125, 27);
             txtName.TabIndex = 7;
@@ -95,30 +99,48 @@
             // 
             // btnConnect
             // 
-            btnConnect.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnConnect.Location = new Point(162, 232);
+            btnConnect.BackColor = Color.LightCyan;
+            btnConnect.FlatAppearance.MouseOverBackColor = Color.Azure;
+            btnConnect.FlatStyle = FlatStyle.Flat;
+            btnConnect.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnConnect.Location = new Point(175, 357);
             btnConnect.Name = "btnConnect";
-            btnConnect.Size = new Size(173, 41);
+            btnConnect.Size = new Size(369, 65);
             btnConnect.TabIndex = 8;
             btnConnect.Text = "Tìm Trận / Match";
-            btnConnect.UseVisualStyleBackColor = true;
+            btnConnect.UseVisualStyleBackColor = false;
             btnConnect.Click += button1_Click;
             // 
             // lblStatus
             // 
             lblStatus.AutoSize = true;
+            lblStatus.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblStatus.ForeColor = Color.Red;
-            lblStatus.Location = new Point(58, 296);
+            lblStatus.Location = new Point(291, 450);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(131, 20);
+            lblStatus.Size = new Size(139, 20);
             lblStatus.TabIndex = 9;
             lblStatus.Text = "Đang chờ kết nối...";
+            lblStatus.Click += lblStatus_Click;
             // 
-            // Form1
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.Location = new Point(3, 9);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(694, 81);
+            lblTitle.TabIndex = 10;
+            lblTitle.Text = "SUDOKU MULTIPLAYER";
+            lblTitle.Click += lblTitle_Click;
+            // 
+            // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(881, 480);
+            BackColor = SystemColors.GradientInactiveCaption;
+            ClientSize = new Size(709, 546);
+            Controls.Add(lblTitle);
             Controls.Add(lblStatus);
             Controls.Add(btnConnect);
             Controls.Add(txtName);
@@ -127,7 +149,8 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Name = "Form1";
+            Cursor = Cursors.Hand;
+            Name = "LoginForm";
             Text = "Form1";
             Load += Form1_Load;
             ResumeLayout(false);
@@ -144,5 +167,6 @@
         private TextBox txtName;
         private Button btnConnect;
         private Label lblStatus;
+        private Label lblTitle;
     }
 }

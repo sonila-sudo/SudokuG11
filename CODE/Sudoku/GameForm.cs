@@ -26,62 +26,50 @@ namespace Sudoku
         }
 
         private void CreateSudokuGrid()
-{
-    int cellSize = 50; // Kích thước mỗi ô vuông
-
-    // 1. Đổi màu nền của Panel thành màu Tối (Màu này sẽ hở ra tạo thành các đường kẻ lưới)
-    pnlBoard.BackColor = Color.Navy; 
-
-    for (int row = 0; row < 9; row++)
-    {
-        for (int col = 0; col < 9; col++)
         {
-            TextBox txt = new TextBox();
-            txt.Size = new Size(cellSize, cellSize);
-            
-            // --- 2. TOÁN HỌC ĐỂ TẠO KHOẢNG CÁCH (ĐƯỜNG KẺ LƯỚI) ---
-            // Thêm 1 pixel khoảng cách cho các ô bình thường (lưới mỏng)
-            int thinLineX = col * 1; 
-            int thinLineY = row * 1;
-            
-            // Thêm 3 pixel khoảng cách sau mỗi 3 ô (lưới đậm chia khối 3x3)
-            int thickLineX = (col / 3) * 3; 
-            int thickLineY = (row / 3) * 3;
+            int cellSize = 50;
+            int borderThickness = 3; // Độ dày của khung viền ngoài cùng (3 pixel)
 
-            txt.Location = new Point(
-                (col * cellSize) + thinLineX + thickLineX, 
-                (row * cellSize) + thinLineY + thickLineY
-            );
+            pnlBoard.BackColor = Color.Navy;
 
-            txt.Multiline = true;
-            txt.Font = new Font("Segoe UI", 18, FontStyle.Bold);
-            txt.ForeColor = Color.DarkSlateGray; 
-            txt.TextAlign = HorizontalAlignment.Center;
-            txt.MaxLength = 1;
-            
-            // Tắt viền 3D mặc định của TextBox để giao diện phẳng
-            txt.BorderStyle = BorderStyle.None; 
+            // Tự động tính toán và ép kích thước Panel vừa khít hoàn hảo (Không lo bị cắt xén)
+            // 9 ô (450px) + 6 viền mỏng (6px) + 2 viền đậm (6px) + 2 viền ngoài (6px) = 470px
+            pnlBoard.Size = new Size(470, 470);
 
-            // --- 3. TÔ MÀU NỀN XEN KẼ CHO CÁC KHỐI 3x3 GIỐNG ẢNH ---
-            // Công thức xác định xem ô này đang nằm ở khối 3x3 chẵn hay lẻ
-            bool isAlternateBlock = ((row / 3) + (col / 3)) % 2 != 0;
-            if (isAlternateBlock)
+            for (int row = 0; row < 9; row++)
             {
-                txt.BackColor = Color.AliceBlue; // Màu xanh nhạt
-            }
-            else
-            {
-                txt.BackColor = Color.White; // Màu trắng
-            }
+                for (int col = 0; col < 9; col++)
+                {
+                    TextBox txt = new TextBox();
+                    txt.Size = new Size(cellSize, cellSize);
 
-            // Lưu vào mảng 2 chiều để quản lý
-            sudokuCells[row, col] = txt;
+                    int thinLineX = col * 1;
+                    int thinLineY = row * 1;
 
-            // Thêm ô này vào trong Panel
-            pnlBoard.Controls.Add(txt);
+                    int thickLineX = (col / 3) * 3;
+                    int thickLineY = (row / 3) * 3;
+
+                    // Đẩy tọa độ x và y cộng thêm borderThickness để tạo viền ngoài
+                    txt.Location = new Point(
+                        (col * cellSize) + thinLineX + thickLineX + borderThickness,
+                        (row * cellSize) + thinLineY + thickLineY + borderThickness
+                    );
+
+                    txt.Multiline = true;
+                    txt.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+                    txt.ForeColor = Color.DarkSlateGray;
+                    txt.TextAlign = HorizontalAlignment.Center;
+                    txt.MaxLength = 1;
+                    txt.BorderStyle = BorderStyle.None;
+
+                    bool isAlternateBlock = ((row / 3) + (col / 3)) % 2 != 0;
+                    txt.BackColor = isAlternateBlock ? Color.AliceBlue : Color.White;
+
+                    sudokuCells[row, col] = txt;
+                    pnlBoard.Controls.Add(txt);
+                }
+            }
         }
-    }
-}
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -89,6 +77,11 @@ namespace Sudoku
         }
 
         private void pnlBoard_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblGameStatus_Click(object sender, EventArgs e)
         {
 
         }
