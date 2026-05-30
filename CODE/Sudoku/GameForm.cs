@@ -122,6 +122,33 @@ namespace Sudoku
             sudokuCells[row, col].BackColor = colorFocus;
         }
 
+        private void UpdateBoardColors()
+        {
+            for (int r = 0; r < 9; r++)
+            {
+                for (int c = 0; c < 9; c++)
+                {
+                    // Chỉ xét những ô không phải đề bài (người chơi nhập)
+                    if (!sudokuCells[r, c].ReadOnly && !string.IsNullOrEmpty(sudokuCells[r, c].Text))
+                    {
+                        if (int.TryParse(sudokuCells[r, c].Text, out int val))
+                        {
+                            // So sánh trực tiếp với đáp án đã lưu
+                            if (val == logic.solutionBoard[r, c])
+                            {
+                                sudokuCells[r, c].ForeColor = Color.Blue; // Đúng -> Xanh (bất kể ô khác đỏ)
+                            }
+                            else
+                            {
+                                sudokuCells[r, c].ForeColor = Color.Red; // Sai -> Đỏ
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Sự kiện TextChanged cập nhật lại
         private void Cell_TextChanged(object sender, EventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -129,19 +156,11 @@ namespace Sudoku
             int[] pos = (int[])txt.Tag;
             int r = pos[0], c = pos[1];
 
-            if (int.TryParse(txt.Text, out int num))
-            {
-                logic.board[r, c] = num;
-                // Kiểm tra đúng/sai để đổi màu chữ
-                txt.ForeColor = logic.CheckValid(r, c, num) ? Color.Blue : Color.Red;
-                ApplyHighlight(r, c); // Highlight các số giống nhau vừa nhập
-            }
-            else
-            {
-                // Khi xóa số (ô trống)
-                logic.board[r, c] = 0;
-                ApplyHighlight(r, c); //  Để reset màu highlight quanh ô trống đó
-            }
+            if (int.TryParse(txt.Text, out int num)) logic.board[r, c] = num;
+            else logic.board[r, c] = 0;
+
+            UpdateBoardColors(); // Gọi hàm cập nhật màu thông minh
+            ApplyHighlight(r, c); // Highlight vùng nhìn cho chuyên nghiệp
         }
 
         private void Txt_KeyPress(object sender, KeyPressEventArgs e)
