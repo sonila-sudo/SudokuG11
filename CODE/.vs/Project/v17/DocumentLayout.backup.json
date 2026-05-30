@@ -1,22 +1,26 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\",
+  "WorkspaceRootPath": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|d:\\uth\\n\u0103m 2 k\u1EF3 2\\l\u1EADp tr\u00ECnh m\u1EA1ng\\sudoku\\code\\sudoku\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|d:\\all\\nam 2\\n\u0103m 2 k\u00EC 2\\l\u1EADp tr\u00ECnh m\u1EA1ng\\sudokug11\\code\\sudoku\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\sudoku\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|d:\\all\\nam 2\\n\u0103m 2 k\u00EC 2\\l\u1EADp tr\u00ECnh m\u1EA1ng\\sudokug11\\code\\sudoku\\sudokulogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\sudokulogic.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|d:\\uth\\n\u0103m 2 k\u1EF3 2\\l\u1EADp tr\u00ECnh m\u1EA1ng\\sudoku\\code\\sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\loginform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|d:\\all\\nam 2\\n\u0103m 2 k\u00EC 2\\l\u1EADp tr\u00ECnh m\u1EA1ng\\sudokug11\\code\\sudoku\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\sudoku\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{F49B4312-94CE-47AA-A684-B033CBD8DB4F}|Sudoku\\Sudoku.csproj|solutionrelative:sudoku\\gameform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,59 +30,70 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GameForm.cs",
-              "DocumentMoniker": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\GameForm.cs",
-              "RelativeDocumentMoniker": "Sudoku\\GameForm.cs",
-              "ToolTip": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\GameForm.cs",
-              "RelativeToolTip": "Sudoku\\GameForm.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAkwBMAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "SudokuLogic.cs",
+              "DocumentMoniker": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\SudokuLogic.cs",
+              "RelativeDocumentMoniker": "Sudoku\\SudokuLogic.cs",
+              "ToolTip": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\SudokuLogic.cs",
+              "RelativeToolTip": "Sudoku\\SudokuLogic.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAD8AAABDAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T09:21:07.766Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoginForm.cs",
-              "DocumentMoniker": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\LoginForm.cs",
-              "RelativeDocumentMoniker": "Sudoku\\LoginForm.cs",
-              "ToolTip": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\LoginForm.cs",
-              "RelativeToolTip": "Sudoku\\LoginForm.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAA5wB8AAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T09:20:54.429Z",
+              "WhenOpened": "2026-05-30T11:36:11.654Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "LoginForm.cs [Design]",
-              "DocumentMoniker": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\LoginForm.cs",
-              "RelativeDocumentMoniker": "Sudoku\\LoginForm.cs",
-              "ToolTip": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\LoginForm.cs [Design]",
-              "RelativeToolTip": "Sudoku\\LoginForm.cs [Design]",
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\Program.cs",
+              "RelativeDocumentMoniker": "Sudoku\\Program.cs",
+              "ToolTip": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\Program.cs",
+              "RelativeToolTip": "Sudoku\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T08:06:52.46Z"
+              "WhenOpened": "2026-05-30T11:27:19.654Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GameForm.cs [Design]",
-              "DocumentMoniker": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\GameForm.cs",
+              "DocumentIndex": 0,
+              "Title": "GameForm.cs",
+              "DocumentMoniker": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\GameForm.cs",
               "RelativeDocumentMoniker": "Sudoku\\GameForm.cs",
-              "ToolTip": "D:\\UTH\\N\u0103m 2 k\u1EF3 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\Sudoku\\CODE\\Sudoku\\GameForm.cs [Design]",
+              "ToolTip": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\GameForm.cs",
+              "RelativeToolTip": "Sudoku\\GameForm.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAYwI4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T09:24:45.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginForm.cs [Design]",
+              "DocumentMoniker": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\LoginForm.cs",
+              "RelativeDocumentMoniker": "Sudoku\\LoginForm.cs",
+              "ToolTip": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\LoginForm.cs [Design]",
+              "RelativeToolTip": "Sudoku\\LoginForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-26T08:06:52.46Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GameForm.cs [Design]",
+              "DocumentMoniker": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\GameForm.cs",
+              "RelativeDocumentMoniker": "Sudoku\\GameForm.cs",
+              "ToolTip": "D:\\All\\Nam 2\\N\u0103m 2 k\u00EC 2\\L\u1EADp tr\u00ECnh m\u1EA1ng\\SudokuG11\\CODE\\Sudoku\\GameForm.cs [Design]",
               "RelativeToolTip": "Sudoku\\GameForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-26T08:06:49.95Z"
+              "WhenOpened": "2026-05-26T08:06:49.95Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }
