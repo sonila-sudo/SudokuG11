@@ -14,9 +14,9 @@ namespace Sudoku
         
         Color colorDefaultBack = Color.White;
         Color colorAltBack = Color.AliceBlue;
-        Color colorHighlightLine = Color.FromArgb(232, 239, 247); // Xanh cực nhạt cho đường chặn
-        Color colorSameNumber = Color.FromArgb(205, 220, 240);   // Xanh vừa cho số giống nhau
-        Color colorFocus = Color.FromArgb(180, 210, 245);        // Ô đang chọn
+        Color colorHighlightLine = Color.FromArgb(232, 239, 247);
+        Color colorSameNumber = Color.FromArgb(205, 220, 240);   
+        Color colorFocus = Color.FromArgb(180, 210, 245);       
 
         public GameForm()
         {
@@ -136,7 +136,7 @@ namespace Sudoku
                             // So sánh trực tiếp với đáp án đã lưu
                             if (val == logic.solutionBoard[r, c])
                             {
-                                sudokuCells[r, c].ForeColor = Color.Blue; // Đúng -> Xanh (bất kể ô khác đỏ)
+                                sudokuCells[r, c].ForeColor = Color.Blue; // Đúng -> Xanh 
                             }
                             else
                             {
@@ -159,8 +159,8 @@ namespace Sudoku
             if (int.TryParse(txt.Text, out int num)) logic.board[r, c] = num;
             else logic.board[r, c] = 0;
 
-            UpdateBoardColors(); // Gọi hàm cập nhật màu thông minh
-            ApplyHighlight(r, c); // Highlight vùng nhìn cho chuyên nghiệp
+            UpdateBoardColors(); // Gọi hàm cập nhật màu
+            ApplyHighlight(r, c); // Highlight vùng nhìn
         }
 
         private void Txt_KeyPress(object sender, KeyPressEventArgs e)
