@@ -47,7 +47,6 @@
             label1.Size = new Size(69, 20);
             label1.TabIndex = 0;
             label1.Text = "IP Server:";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -66,7 +65,6 @@
             label3.Size = new Size(110, 20);
             label3.TabIndex = 4;
             label3.Text = "Tên người chơi:";
-            label3.Click += label3_Click;
             // 
             // txtIP
             // 
@@ -76,7 +74,6 @@
             txtIP.Size = new Size(125, 27);
             txtIP.TabIndex = 5;
             txtIP.Text = "127.0.0.1";
-            txtIP.TextChanged += textBox1_TextChanged_1;
             // 
             // txtPort
             // 
@@ -86,7 +83,6 @@
             txtPort.Size = new Size(125, 27);
             txtPort.TabIndex = 6;
             txtPort.Text = "8080";
-            txtPort.TextChanged += textBox2_TextChanged;
             // 
             // txtName
             // 
@@ -95,7 +91,6 @@
             txtName.Name = "txtName";
             txtName.Size = new Size(125, 27);
             txtName.TabIndex = 7;
-            txtName.TextChanged += textBox3_TextChanged;
             // 
             // btnConnect
             // 
@@ -121,7 +116,6 @@
             lblStatus.Size = new Size(139, 20);
             lblStatus.TabIndex = 9;
             lblStatus.Text = "Đang chờ kết nối...";
-            lblStatus.Click += lblStatus_Click;
             // 
             // lblTitle
             // 
@@ -132,7 +126,6 @@
             lblTitle.Size = new Size(694, 81);
             lblTitle.TabIndex = 10;
             lblTitle.Text = "SUDOKU MULTIPLAYER";
-            lblTitle.Click += lblTitle_Click;
             // 
             // LoginForm
             // 
@@ -152,7 +145,6 @@
             Cursor = Cursors.Hand;
             Name = "LoginForm";
             Text = "Form1";
-            Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
