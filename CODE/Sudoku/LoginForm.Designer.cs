@@ -121,7 +121,7 @@
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.Location = new Point(3, 9);
+            lblTitle.Location = new Point(66, 22);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(694, 81);
             lblTitle.TabIndex = 10;
@@ -145,6 +145,7 @@
             Cursor = Cursors.Hand;
             Name = "LoginForm";
             Text = "Form1";
+            Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
