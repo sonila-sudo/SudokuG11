@@ -7,7 +7,7 @@ namespace Sudoku
     public class SudokuLogic
     {
         public int[,] board = new int[9, 9];
-        public int[,] solutionBoard = new int[9, 9]; // Lưu đáp án cố định
+        public int[,] solutionBoard = new int[9, 9];
         private Random random = new Random();
 
         public bool CheckValid(int row, int col, int num)
@@ -30,7 +30,6 @@ namespace Sudoku
             Array.Clear(board, 0, board.Length);
             Fill(0, 0);
 
-            // BƯỚC QUAN TRỌNG: Lưu lại đáp án hoàn chỉnh trước khi xóa ô
             Array.Copy(board, solutionBoard, board.Length);
 
             List<(int row, int col)> cells = new List<(int row, int col)>();
@@ -47,7 +46,6 @@ namespace Sudoku
                 int backup = board[cell.row, cell.col];
                 board[cell.row, cell.col] = 0;
 
-                // Kiểm tra nếu xóa mà vẫn duy nhất 1 nghiệm thì mới xóa hẳn
                 if (CountSolutions((int[,])board.Clone()) == 1) removed++;
                 else board[cell.row, cell.col] = backup;
             }

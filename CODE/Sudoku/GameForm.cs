@@ -26,7 +26,7 @@ namespace Sudoku
         private void GameForm_Load(object sender, EventArgs e)
         {
             CreateSudokuGrid();
-            StartNewGame(40); // Tạo đề bài 40 ô trống
+            StartNewGame(40); 
         }
 
         private void CreateSudokuGrid()
@@ -65,10 +65,8 @@ namespace Sudoku
                     bool isAlternateBlock = ((row / 3) + (col / 3)) % 2 != 0;
                     txt.BackColor = isAlternateBlock ? colorAltBack : colorDefaultBack;
 
-                    // Gán dữ liệu tọa độ
                     txt.Tag = new int[] { row, col };
 
-                    // Sự kiện Click/Tab vào ô để Highlight
                     txt.Enter += (s, ev) =>
                     {
                         int[] pos = (int[])((TextBox)s).Tag;
@@ -84,15 +82,14 @@ namespace Sudoku
 
                     txt.Click += (s, ev) =>
                     {
-                        ((TextBox)s).SelectAll(); // Nhấn vào là bôi đen để gõ đè số mới ngay
+                        ((TextBox)s).SelectAll(); 
                     };
 
                     txt.Enter += (s, ev) =>
                     {
                         TextBox currentTxt = (TextBox)s;
-                        currentTxt.SelectAll(); // Di chuyển bằng phím Tab cũng bôi đen luôn
+                        currentTxt.SelectAll(); 
 
-                        // Giữ nguyên logic Highlight khi chọn ô
                         int[] pos = (int[])currentTxt.Tag;
                         ApplyHighlight(pos[0], pos[1]);
                     };
@@ -110,18 +107,15 @@ namespace Sudoku
                 {
                     bool isAlt = ((r / 3) + (c / 3)) % 2 != 0;
 
-                    // Highlight đường chặn
                     if (r == row || c == col)
                         sudokuCells[r, c].BackColor = colorHighlightLine;
                     else
                         sudokuCells[r, c].BackColor = isAlt ? colorAltBack : colorDefaultBack;
 
-                    // Highlight số giống nhau
                     if (!string.IsNullOrEmpty(targetValue) && sudokuCells[r, c].Text == targetValue)
                         sudokuCells[r, c].BackColor = colorSameNumber;
                 }
             }
-            // Ô đang chọn
             sudokuCells[row, col].BackColor = colorFocus;
         }
 
@@ -131,19 +125,17 @@ namespace Sudoku
             {
                 for (int c = 0; c < 9; c++)
                 {
-                    // Chỉ xét những ô không phải đề bài (người chơi nhập)
                     if (!sudokuCells[r, c].ReadOnly && !string.IsNullOrEmpty(sudokuCells[r, c].Text))
                     {
                         if (int.TryParse(sudokuCells[r, c].Text, out int val))
                         {
-                            // So sánh trực tiếp với đáp án đã lưu
                             if (val == logic.solutionBoard[r, c])
                             {
-                                sudokuCells[r, c].ForeColor = Color.Blue; // Đúng -> Xanh 
+                                sudokuCells[r, c].ForeColor = Color.Blue; 
                             }
                             else
                             {
-                                sudokuCells[r, c].ForeColor = Color.Red; // Sai -> Đỏ
+                                sudokuCells[r, c].ForeColor = Color.Red; 
                             }
                         }
                     }
@@ -151,7 +143,6 @@ namespace Sudoku
             }
         }
 
-        // Sự kiện TextChanged cập nhật lại
         private void Cell_TextChanged(object sender, EventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -162,13 +153,13 @@ namespace Sudoku
             if (int.TryParse(txt.Text, out int num)) logic.board[r, c] = num;
             else logic.board[r, c] = 0;
 
-            UpdateBoardColors(); // Gọi hàm cập nhật màu
-            ApplyHighlight(r, c); // Highlight vùng nhìn
+            UpdateBoardColors();
+            ApplyHighlight(r, c);
         }
 
         private void Txt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Chỉ cho nhập số 1-9 và phím xóa
+            
             if (!char.IsDigit(e.KeyChar) || e.KeyChar == '0')
                 if (e.KeyChar != (char)8) e.Handled = true;
         }
@@ -207,7 +198,7 @@ namespace Sudoku
 
         private void btnSurrender_Click(object sender, EventArgs e)
         {
-            // Hiện hộp thoại xác nhận
+            
             DialogResult result = MessageBox.Show(
                 "Bạn có chắc chắn muốn đầu hàng và thoát game không?",
                 "Xác nhận thoát",
