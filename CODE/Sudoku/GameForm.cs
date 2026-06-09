@@ -220,5 +220,10 @@ namespace Sudoku
                 Application.Exit();
             }
         }
+
+        private void GameForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

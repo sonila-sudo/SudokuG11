@@ -114,6 +114,7 @@
             Controls.Add(pnlBoard);
             Name = "GameForm";
             Text = "Form2";
+            FormClosed += GameForm_FormClosed;
             Load += GameForm_Load;
             ResumeLayout(false);
             PerformLayout();
