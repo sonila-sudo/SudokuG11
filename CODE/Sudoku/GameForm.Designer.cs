@@ -86,6 +86,7 @@
             btnSurrender.TabIndex = 0;
             btnSurrender.Text = "Đầu hàng / Thoát";
             btnSurrender.UseVisualStyleBackColor = false;
+            btnSurrender.Click += btnSurrender_Click;
             // 
             // lblGameStatus
             // 

@@ -11,12 +11,12 @@ namespace Sudoku
         private SudokuLogic logic = new SudokuLogic();
         private TextBox[,] sudokuCells = new TextBox[9, 9];
 
-        
+
         Color colorDefaultBack = Color.White;
         Color colorAltBack = Color.AliceBlue;
         Color colorHighlightLine = Color.FromArgb(232, 239, 247);
-        Color colorSameNumber = Color.FromArgb(205, 220, 240);   
-        Color colorFocus = Color.FromArgb(180, 210, 245);       
+        Color colorSameNumber = Color.FromArgb(205, 220, 240);
+        Color colorFocus = Color.FromArgb(180, 210, 245);
 
         public GameForm()
         {
@@ -51,7 +51,7 @@ namespace Sudoku
                     txt.MaxLength = 1;
                     txt.BorderStyle = BorderStyle.None;
 
-                    
+
                     int thinLineX = col * 1;
                     int thinLineY = row * 1;
                     int thickLineX = (col / 3) * 3;
@@ -69,7 +69,8 @@ namespace Sudoku
                     txt.Tag = new int[] { row, col };
 
                     // Sự kiện Click/Tab vào ô để Highlight
-                    txt.Enter += (s, ev) => {
+                    txt.Enter += (s, ev) =>
+                    {
                         int[] pos = (int[])((TextBox)s).Tag;
                         ApplyHighlight(pos[0], pos[1]);
                     };
@@ -81,11 +82,13 @@ namespace Sudoku
                     pnlBoard.Controls.Add(txt);
 
 
-                    txt.Click += (s, ev) => {
+                    txt.Click += (s, ev) =>
+                    {
                         ((TextBox)s).SelectAll(); // Nhấn vào là bôi đen để gõ đè số mới ngay
                     };
 
-                    txt.Enter += (s, ev) => {
+                    txt.Enter += (s, ev) =>
+                    {
                         TextBox currentTxt = (TextBox)s;
                         currentTxt.SelectAll(); // Di chuyển bằng phím Tab cũng bôi đen luôn
 
@@ -197,9 +200,25 @@ namespace Sudoku
                 }
         }
 
-        
+
         private void label1_Click(object sender, EventArgs e) { }
         private void pnlBoard_Paint(object sender, PaintEventArgs e) { }
         private void lblGameStatus_Click(object sender, EventArgs e) { }
+
+        private void btnSurrender_Click(object sender, EventArgs e)
+        {
+            // Hiện hộp thoại xác nhận
+            DialogResult result = MessageBox.Show(
+                "Bạn có chắc chắn muốn đầu hàng và thoát game không?",
+                "Xác nhận thoát",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
+        }
     }
 }
