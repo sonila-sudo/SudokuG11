@@ -11,7 +11,6 @@ namespace Sudoku
         private SudokuLogic logic = new SudokuLogic();
         private TextBox[,] sudokuCells = new TextBox[9, 9];
 
-
         Color colorDefaultBack = Color.White;
         Color colorAltBack = Color.AliceBlue;
         Color colorHighlightLine = Color.FromArgb(232, 239, 247);
@@ -26,73 +25,73 @@ namespace Sudoku
         private void GameForm_Load(object sender, EventArgs e)
         {
             CreateSudokuGrid();
-            StartNewGame(40); 
+            StartNewGame(40);
         }
 
         private void CreateSudokuGrid()
         {
-            int cellSize = 50;
-            int borderThickness = 3;
-
-            pnlBoard.BackColor = Color.Navy;
-            pnlBoard.Size = new Size(470, 470);
             pnlBoard.Controls.Clear();
+            pnlBoard.BackColor = Color.Navy;
+
+            int boardWidth = pnlBoard.ClientSize.Width;
+            int boardHeight = pnlBoard.ClientSize.Height;
+
+            int margin = 4;
+
+            double availableW = boardWidth - (margin * 2) - 4;
+            double availableH = boardHeight - (margin * 2) - 4;
+
+            double cellW = availableW / 9;
+            double cellH = availableH / 9;
 
             for (int row = 0; row < 9; row++)
             {
                 for (int col = 0; col < 9; col++)
                 {
                     TextBox txt = new TextBox();
-                    txt.Size = new Size(cellSize, cellSize);
                     txt.Multiline = true;
-                    txt.Font = new Font("Segoe UI", 18, FontStyle.Bold);
+                    txt.Font = new Font("Segoe UI", 16, FontStyle.Bold);
                     txt.ForeColor = Color.DarkSlateGray;
                     txt.TextAlign = HorizontalAlignment.Center;
                     txt.MaxLength = 1;
                     txt.BorderStyle = BorderStyle.None;
 
+                    int thickLinesX = (col / 3) * 2;
+                    int thickLinesY = (row / 3) * 2;
 
-                    int thinLineX = col * 1;
-                    int thinLineY = row * 1;
-                    int thickLineX = (col / 3) * 3;
-                    int thickLineY = (row / 3) * 3;
+                    int posX = margin + (int)(col * cellW) + thickLinesX;
+                    int posY = margin + (int)(row * cellH) + thickLinesY;
 
-                    txt.Location = new Point(
-                        (col * cellSize) + thinLineX + thickLineX + borderThickness,
-                        (row * cellSize) + thinLineY + thickLineY + borderThickness
-                    );
+                    int sizeX = margin + (int)((col + 1) * cellW) + thickLinesX - posX;
+                    int sizeY = margin + (int)((row + 1) * cellH) + thickLinesY - posY;
+
+                    txt.Location = new Point(posX, posY);
+                    txt.Size = new Size(sizeX - 1, sizeY - 1);
 
                     bool isAlternateBlock = ((row / 3) + (col / 3)) % 2 != 0;
                     txt.BackColor = isAlternateBlock ? colorAltBack : colorDefaultBack;
 
                     txt.Tag = new int[] { row, col };
 
-                    txt.Enter += (s, ev) =>
-                    {
-                        int[] pos = (int[])((TextBox)s).Tag;
-                        ApplyHighlight(pos[0], pos[1]);
-                    };
-
                     txt.KeyPress += Txt_KeyPress;
                     txt.TextChanged += Cell_TextChanged;
 
-                    sudokuCells[row, col] = txt;
-                    pnlBoard.Controls.Add(txt);
-
-
                     txt.Click += (s, ev) =>
                     {
-                        ((TextBox)s).SelectAll(); 
+                        ((TextBox)s).SelectAll();
                     };
 
                     txt.Enter += (s, ev) =>
                     {
                         TextBox currentTxt = (TextBox)s;
-                        currentTxt.SelectAll(); 
+                        currentTxt.SelectAll();
 
                         int[] pos = (int[])currentTxt.Tag;
                         ApplyHighlight(pos[0], pos[1]);
                     };
+
+                    sudokuCells[row, col] = txt;
+                    pnlBoard.Controls.Add(txt);
                 }
             }
         }
@@ -131,11 +130,11 @@ namespace Sudoku
                         {
                             if (val == logic.solutionBoard[r, c])
                             {
-                                sudokuCells[r, c].ForeColor = Color.Blue; 
+                                sudokuCells[r, c].ForeColor = Color.Blue;
                             }
                             else
                             {
-                                sudokuCells[r, c].ForeColor = Color.Red; 
+                                sudokuCells[r, c].ForeColor = Color.Red;
                             }
                         }
                     }
@@ -159,7 +158,6 @@ namespace Sudoku
 
         private void Txt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            
             if (!char.IsDigit(e.KeyChar) || e.KeyChar == '0')
                 if (e.KeyChar != (char)8) e.Handled = true;
         }
@@ -191,14 +189,12 @@ namespace Sudoku
                 }
         }
 
-
         private void label1_Click(object sender, EventArgs e) { }
         private void pnlBoard_Paint(object sender, PaintEventArgs e) { }
         private void lblGameStatus_Click(object sender, EventArgs e) { }
 
         private void btnSurrender_Click(object sender, EventArgs e)
         {
-            
             DialogResult result = MessageBox.Show(
                 "Bạn có chắc chắn muốn đầu hàng và thoát game không?",
                 "Xác nhận thoát",
