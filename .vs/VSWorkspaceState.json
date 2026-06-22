@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\CODE",
+    "\\CODE\\Sudoku.client",
+    "\\CODE\\Sudoku.client\\Sudoku.client",
+    "\\CODE\\Sudoku.server",
+    "\\CODE\\Sudoku.server\\Models",
+    "\\CODE\\Sudoku.server\\Network",
+    "\\CODE\\Sudoku.server\\obj",
+    "\\CODE\\Sudoku.server\\Services",
+    "\\CODE\\Sudoku.sever"
+  ],
+  "SelectedNode": "\\CODE\\Sudoku.server\\Sudoku.server.csproj",
+  "PreviewInSolutionExplorer": false
+}
