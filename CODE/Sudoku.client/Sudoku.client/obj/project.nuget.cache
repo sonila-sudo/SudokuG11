@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "iSb86uHC2lk=",
+  "dgSpecHash": "EJ6E1RYRzp0=",
   "success": true,
-  "projectFilePath": "D:\\All\\Nam 2\\Năm 2 kì 2\\Lập trình mạng\\SudokuG11\\CODE\\Sudoku.client\\Sudoku.client\\Sudoku.client.csproj",
+  "projectFilePath": "D:\\UTH\\Năm 2 kỳ 2\\Lập trình mạng\\Sudoku\\CODE\\Sudoku.client\\Sudoku.client\\Sudoku.client.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\PC\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
+    "C:\\Users\\Lenovo\\.nuget\\packages\\newtonsoft.json\\13.0.4\\newtonsoft.json.13.0.4.nupkg.sha512"
   ],
   "logs": []
 }
