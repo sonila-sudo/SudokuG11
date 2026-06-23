@@ -1,36 +1,36 @@
-using Sudoku.Server.Network;
+using System.Net;
 using Sudoku.Server.Services;
-using System.Threading;
 
-namespace Sudoku.Server
+const int port = 5050;
+const string dbFile = "sudoku.db";
+
+var dbPath = Path.Combine(AppContext.BaseDirectory, dbFile);
+using var database = new DatabaseService(dbPath);
+using var cts = new CancellationTokenSource();
+
+Console.CancelKeyPress += (_, e) =>
 {
-    internal static class Program
-    {
-        /// <summary>
-        /// Server entrypoint: creates services and starts the TCP listener.
-        /// Usage: `dotnet run --project CODE/Sudoku.server -- [port]`
-        /// </summary>
-        public static async Task Main(string[] args)
-        {
-            int port = 8888;
-            if (args.Length > 0 && int.TryParse(args[0], out var p)) port = p;
+  e.Cancel = true;
+  cts.Cancel();
+};
 
-            var roomManager = new RoomManager();
-            var generator = new SudokuGenerator();
-            var gameService = new GameService(generator);
-            roomManager.GameService = gameService;
+var server = new SudokuTcpServer(IPAddress.Any, port, database);
+Console.WriteLine("=================================");
+Console.WriteLine("  SUDOKU MULTIPLAYER SERVER");
+Console.WriteLine($"  Port: {port}");
+Console.WriteLine($"  Database: {dbPath}");
+Console.WriteLine("  Nhấn Ctrl+C để dừng.");
+Console.WriteLine("=================================");
 
-            var server = new TcpServer(port, roomManager, gameService);
-
-            Console.CancelKeyPress += (s, e) =>
-            {
-                e.Cancel = true;
-                Console.WriteLine("[Program] Shutdown requested (Ctrl+C)");
-                server.Stop();
-            };
-
-            Console.WriteLine($"[Program] Starting Sudoku server on port {port}...");
-            await server.StartAsync();
-        }
-    }
+try
+{
+  await server.RunAsync(cts.Token);
+}
+catch (OperationCanceledException)
+{
+  Console.WriteLine("Server đã dừng.");
+}
+finally
+{
+  server.Stop();
 }
