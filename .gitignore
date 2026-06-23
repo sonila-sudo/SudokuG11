@@ -77,3 +77,11 @@ Testing/
 /CODE/Sudoku.server/obj
 /CODE/Sudoku.client/Sudoku.client/obj
 /CODE/Sudoku.client/Sudoku.client/bin
+
+# Visual Studio cache and settings
+.vs/
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+*.user
