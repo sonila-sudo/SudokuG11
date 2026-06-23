@@ -26,7 +26,29 @@ obj/
 *.swp
 *.cache/
 
+<<<<<<< HEAD
 # Bỏ qua cơ sở dữ liệu SQLite cục bộ (Nếu bạn không muốn push file db lên Git)
 # Bỏ dấu # ở dòng dưới nếu muốn mỗi người tự tạo DB riêng khi chạy Server
 # *.db 
 # *.sqlite
+=======
+# vcpkg
+vcpkg_installed/
+
+# debug information files
+*.dwo
+
+# test output & cache
+Testing/
+.cache/
+/CODE/.vs
+/CODE/Sudoku/obj
+/CODE/Sudoku/obj
+/CODE/Sudoku/obj
+/CODE/Sudoku/bin
+/CODE/Sudoku.client/obj
+/CODE/Sudoku.Shared/obj
+/CODE/Sudoku.server/obj
+/CODE/Sudoku.client/Sudoku.client/obj
+/CODE/Sudoku.client/Sudoku.client/bin
+>>>>>>> 1916cb89d390dd9d001f70298fcfbdb42433c3a7
