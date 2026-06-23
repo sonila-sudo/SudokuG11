@@ -22,8 +22,6 @@ namespace Sudoku.Server.Services
 
         /// <summary>
         /// Thử ghép player vào phòng.
-        /// - Nếu chưa có ai chờ → player này chờ.
-        /// - Nếu đã có người chờ → tạo phòng và bắt đầu game.
         /// </summary>
         public void TryJoin(Player newPlayer)
         {
@@ -34,11 +32,11 @@ namespace Sudoku.Server.Services
                 if (_waitingPlayer == null)
                 {
                     _waitingPlayer = newPlayer;
-                    Console.WriteLine($"[Room] {newPlayer} is waiting for an opponent...");
+                    Console.WriteLine($"[Room] {newPlayer.Name} đang ở hàng đợi, chờ đối thủ...");
                 }
                 else
                 {
-                    // Ghép phòng
+                    // Ghép phòng khi xuất hiện người chơi thứ 2
                     var room = new GameRoom();
                     room.AddPlayer(_waitingPlayer);
                     room.AddPlayer(newPlayer);
@@ -46,9 +44,9 @@ namespace Sudoku.Server.Services
                     lock (_roomsLock)
                         _rooms[room.RoomId] = room;
 
+                    Console.WriteLine($"[Room] Trận đấu khởi tạo thành công: {_waitingPlayer.Name} VS {newPlayer.Name}");
                     _waitingPlayer = null;
                     roomToStart = room;
-                    Console.WriteLine($"[Room] {room} created – {room.Players[0]} vs {room.Players[1]}");
                 }
             }
 
@@ -66,22 +64,19 @@ namespace Sudoku.Server.Services
 
         /// <summary>
         /// Xử lý khi một player mất kết nối đột ngột.
-        /// Thông báo cho đối thủ nếu game đang diễn ra.
         /// </summary>
         public void HandlePlayerDisconnect(Player player)
         {
-            // Nếu player đang chờ → xóa khỏi hàng chờ
             lock (_waitingLock)
             {
                 if (_waitingPlayer?.PlayerId == player.PlayerId)
                 {
                     _waitingPlayer = null;
-                    Console.WriteLine($"[Room] Waiting player {player} disconnected.");
+                    Console.WriteLine($"[Room] Người chơi đang chờ {player.Name} đã hủy tìm trận.");
                     return;
                 }
             }
 
-            // Nếu đang trong phòng → tìm phòng và thông báo đối thủ
             GameRoom? room = null;
             lock (_roomsLock)
             {
@@ -101,7 +96,7 @@ namespace Sudoku.Server.Services
             Player? opponent = room.GetOpponent(player);
             if (opponent != null)
             {
-                Console.WriteLine($"[Room] {player} disconnected from {room} – {opponent} wins by default.");
+                Console.WriteLine($"[Room] {player.Name} mất kết nối đột ngột – {opponent.Name} thắng cuộc.");
                 _ = opponent.SendAsync(GameMessage.MakeGameOver(
                     opponent.PlayerId,
                     opponent.Name,

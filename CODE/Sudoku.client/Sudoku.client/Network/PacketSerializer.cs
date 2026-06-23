@@ -2,8 +2,18 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Sudoku.Client.Network
+namespace Sudoku.client.Network
 {
+    /// <summary>
+    /// Class định nghĩa cấu trúc gói tin gồm Action và Payload.
+    /// Thêm vào đây để dứt điểm hoàn toàn lỗi gạch đỏ CS0117!
+    /// </summary>
+    public class Message
+    {
+        public string Action { get; set; }
+        public object Payload { get; set; }
+    }
+
     /// <summary>
     /// Chịu trách nhiệm serialize/deserialize gói tin JSON.
     /// Dùng Newtonsoft.Json (đã có sẵn trong project .NET WinForms).

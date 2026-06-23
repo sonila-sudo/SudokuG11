@@ -1,122 +1,54 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
+using Sudoku.Server.Services;
+using Sudoku.Server.Network;
+using Sudoku.Server.Models;
 
-namespace Sudoku.Server.Models
+namespace Sudoku.Server
 {
-    /// <summary>
-    /// Thông điệp trao đổi giữa Server và Client qua TCP stream (JSON).
-    /// </summary>
-    public class GameMessage
+    class Program
     {
-        // ── Chung ──────────────────────────────────────────────────────────────────
-        [JsonPropertyName("Type")]
-        public string Type { get; set; } = string.Empty;
+        // Tạm thời COMMENT hoặc XÓA bỏ chế độ ẩn ShowWindow để chúng ta dễ kiểm soát luồng chạy
+        /*
+        [DllImport("user32.dll")]
+        static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
-        [JsonPropertyName("PlayerId")]
-        public string? PlayerId { get; set; }
+        [DllImport("kernel32.dll")]
+        static extern IntPtr GetConsoleWindow();
 
-        [JsonPropertyName("RoomId")]
-        public string? RoomId { get; set; }
+        const int SW_HIDE = 0;
+        */
 
-        // ── JOIN ───────────────────────────────────────────────────────────────────
-        [JsonPropertyName("PlayerName")]
-        public string? PlayerName { get; set; }
-
-        // ── GAME_START ─────────────────────────────────────────────────────────────
-        [JsonPropertyName("Board")]
-        public int[][]? Board { get; set; }          // 9x9 puzzle (0 = ô trống)
-
-        [JsonPropertyName("Solution")]
-        public int[][]? Solution { get; set; }       // 9x9 đáp án đầy đủ
-
-        // ── MOVE ───────────────────────────────────────────────────────────────────
-        [JsonPropertyName("Row")]
-        public int Row { get; set; }
-
-        [JsonPropertyName("Col")]
-        public int Col { get; set; }
-
-        [JsonPropertyName("Value")]
-        public int Value { get; set; }
-
-        // ── MOVE_RESULT ────────────────────────────────────────────────────────────
-        [JsonPropertyName("Correct")]
-        public bool? Correct { get; set; }
-
-        [JsonPropertyName("ErrorCount")]
-        public int ErrorCount { get; set; }
-
-        // ── GAME_OVER ──────────────────────────────────────────────────────────────
-        [JsonPropertyName("Winner")]
-        public string? Winner { get; set; }          // PlayerId của người thắng
-
-        [JsonPropertyName("WinnerName")]
-        public string? WinnerName { get; set; }
-
-        [JsonPropertyName("Reason")]
-        public string? Reason { get; set; }          // "COMPLETED" | "3_ERRORS" | "OPPONENT_DISCONNECTED"
-
-        // ── Helpers ────────────────────────────────────────────────────────────────
-        private static readonly JsonSerializerOptions _opts = new JsonSerializerOptions
+        // Đổi hàm Main thành async Task để chạy bất đồng bộ đồng bộ với TcpServer của bạn
+        static async Task Main(string[] args)
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
+            // Để hiện cửa sổ theo dõi log, không chạy ngầm giấu đi nữa
+            // IntPtr handle = GetConsoleWindow();
+            // ShowWindow(handle, SW_HIDE);
 
-        public string Serialize() => JsonSerializer.Serialize(this, _opts);
+            Console.OutputEncoding = System.Text.Encoding.UTF8; // In chữ tiếng Việt chuẩn chỉnh không lỗi font
+            Console.WriteLine("=========================================================");
+            Console.WriteLine("[Server] ĐANG KHỞI ĐỘNG HỆ THỐNG SUDOKU MULTIPLAYER...");
+            Console.WriteLine("=========================================================");
 
-        public static GameMessage? Deserialize(string json)
-        {
-            try { return JsonSerializer.Deserialize<GameMessage>(json, _opts); }
-            catch { return null; }
-        }
+            // 1. Khởi tạo dịch vụ tạo đề bài Sudoku và quản lý logic game
+            SudokuGenerator generator = new SudokuGenerator();
+            GameService gameService = new GameService(generator);
+            RoomManager roomManager = new RoomManager();
 
-        // ── Factory methods ────────────────────────────────────────────────────────
-        public static GameMessage MakeGameStart(string roomId, string playerId, int[,] board, int[,] solution) => new()
-        {
-            Type = "GAME_START",
-            RoomId = roomId,
-            PlayerId = playerId,
-            Board = ToJagged(board),
-            Solution = ToJagged(solution)
-        };
+            // Cấu hình chéo liên kết tránh circular dependency giống như cấu trúc của bạn
+            roomManager.GameService = gameService;
 
-        public static GameMessage MakeMoveResult(bool correct, int errorCount) => new()
-        {
-            Type = "MOVE_RESULT",
-            Correct = correct,
-            ErrorCount = errorCount
-        };
+            // 2. CẤU HÌNH PORT 9999: Đồng bộ 100% với ô Port nhập trên LoginForm của Client
+            int port = 9999;
 
-        public static GameMessage MakeOpponentMove(int row, int col) => new()
-        {
-            Type = "OPPONENT_MOVE",
-            Row = row,
-            Col = col
-        };
+            // 3. Khởi chạy thông qua lớp TcpServer xịn mà bạn đã viết sẵn
+            TcpServer server = new TcpServer(port, roomManager, gameService);
 
-        public static GameMessage MakeGameOver(string winnerId, string winnerName, string reason) => new()
-        {
-            Type = "GAME_OVER",
-            Winner = winnerId,
-            WinnerName = winnerName,
-            Reason = reason
-        };
-
-        public static GameMessage MakeWaiting() => new() { Type = "WAITING" };
-        public static GameMessage MakeError(string msg) => new() { Type = "ERROR", Reason = msg };
-
-        // ── Util ───────────────────────────────────────────────────────────────────
-        private static int[][] ToJagged(int[,] arr)
-        {
-            int rows = arr.GetLength(0), cols = arr.GetLength(1);
-            var jagged = new int[rows][];
-            for (int r = 0; r < rows; r++)
-            {
-                jagged[r] = new int[cols];
-                for (int c = 0; c < cols; c++)
-                    jagged[r][c] = arr[r, c];
-            }
-            return jagged;
+            // Kích hoạt lắng nghe, lúc này màn hình đen sẽ hiện rõ trạng thái hoạt động
+            await server.StartAsync();
         }
     }
 }

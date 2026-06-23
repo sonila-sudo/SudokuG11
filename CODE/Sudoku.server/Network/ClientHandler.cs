@@ -23,7 +23,6 @@ namespace Sudoku.Server.Network
 
         /// <summary>
         /// Vòng lặp chính – đọc từng dòng JSON từ client.
-        /// Chạy blocking trên thread do TcpServer spawn.
         /// </summary>
         public void Handle()
         {
@@ -63,8 +62,12 @@ namespace Sudoku.Server.Network
 
         private void Dispatch(GameMessage msg)
         {
-            switch (msg.Type?.ToUpper())
+            // Lấy hành động thông qua thuộc tính kết hợp Action/Type đã xử lý mapping
+            string? command = (msg.Action ?? msg.Type)?.ToUpper();
+
+            switch (command)
             {
+                case "LOGIN":
                 case "JOIN":
                     HandleJoin(msg);
                     break;
@@ -74,7 +77,8 @@ namespace Sudoku.Server.Network
                     break;
 
                 default:
-                    _ = _player.SendAsync(GameMessage.MakeError($"Unknown message type: {msg.Type}"));
+                    Console.WriteLine($"[Network] Tin nhắn lạ từ {_player.Name}: {command}");
+                    _ = _player.SendAsync(GameMessage.MakeError($"Unknown message type: {command}"));
                     break;
             }
         }
@@ -84,7 +88,7 @@ namespace Sudoku.Server.Network
         private void HandleJoin(GameMessage msg)
         {
             _player.Name = msg.PlayerName ?? "Player";
-            Console.WriteLine($"[Network] {_player} joined – waiting for opponent...");
+            Console.WriteLine($"[Network] Người chơi '{_player.Name}' đăng nhập thành công – đang tìm đối thủ...");
             _ = _player.SendAsync(GameMessage.MakeWaiting());
             _roomManager.TryJoin(_player);
         }
@@ -102,10 +106,9 @@ namespace Sudoku.Server.Network
 
         private void HandleDisconnect()
         {
-            Console.WriteLine($"[Network] {_player} disconnected");
+            Console.WriteLine($"[Network] Người chơi '{_player.Name}' đã ngắt kết nối.");
             _roomManager.HandlePlayerDisconnect(_player);
             try { _player.TcpClient.Close(); } catch { }
         }
     }
 }
-

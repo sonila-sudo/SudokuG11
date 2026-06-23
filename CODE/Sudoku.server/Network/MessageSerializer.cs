@@ -12,7 +12,8 @@ namespace Sudoku.Server.Network
         private static readonly JsonSerializerOptions _opts = new JsonSerializerOptions
         {
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            WriteIndented = false
+            WriteIndented = false,
+            PropertyNameCaseInsensitive = true // BỔ SUNG: Đọc JSON không phân biệt hoa thường
         };
 
         public static string Serialize(GameMessage msg) =>

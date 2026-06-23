@@ -2,66 +2,28 @@ using System;
 
 namespace Sudoku.Client.Network
 {
-    /// <summary>
-    /// Nhận chuỗi JSON thô từ NetworkManager,
-    /// đọc Action rồi bắn đúng event để GUI / GameLogic lắng nghe.
-    /// </summary>
     public class MessageHandler
     {
-        // ─── EVENTS (GUI và GameLogic sẽ đăng ký lắng nghe) ───────────────
+        // Nhận vào một chuỗi thông điệp tổng quát để kích hoạt chuyển Form
+        public event Action<string> OnMatchStart;
 
-        public event Action<WaitingPayload>    OnWaiting;
-        public event Action<MatchStartPayload> OnMatchStart;
-        public event Action<MoveAckPayload>    OnMoveAck;
-        public event Action<TimeSyncPayload>   OnTimeSync;
-        public event Action<GameOverPayload>   OnGameOver;
-
-        // ─── XỬ LÝ GÓI TIN ────────────────────────────────────────────────
-
-        /// <summary>
-        /// Gọi hàm này mỗi khi nhận được 1 dòng JSON từ server.
-        /// </summary>
-        public void Handle(string json)
+        public void HandleMessage(string rawMessage)
         {
             try
             {
-                string action = PacketSerializer.GetAction(json);
+                if (string.IsNullOrWhiteSpace(rawMessage)) return;
 
-                switch (action)
+                string cleanMessage = rawMessage.Trim().ToUpper();
+
+                // Lắng nghe tất cả các từ khóa bắt đầu game từ Server của bạn gửi về
+                if (cleanMessage.Contains("GAME_START") || cleanMessage.Contains("MATCH_START") || cleanMessage.Contains("PLAYING"))
                 {
-                    case "WAITING":
-                        OnWaiting?.Invoke(
-                            PacketSerializer.DeserializePayload<WaitingPayload>(json));
-                        break;
-
-                    case "MATCH_START":
-                        OnMatchStart?.Invoke(
-                            PacketSerializer.DeserializePayload<MatchStartPayload>(json));
-                        break;
-
-                    case "MOVE_ACK":
-                        OnMoveAck?.Invoke(
-                            PacketSerializer.DeserializePayload<MoveAckPayload>(json));
-                        break;
-
-                    case "TIME_SYNC":
-                        OnTimeSync?.Invoke(
-                            PacketSerializer.DeserializePayload<TimeSyncPayload>(json));
-                        break;
-
-                    case "GAME_OVER":
-                        OnGameOver?.Invoke(
-                            PacketSerializer.DeserializePayload<GameOverPayload>(json));
-                        break;
-
-                    default:
-                        Console.WriteLine($"[MessageHandler] Unknown action: {action}");
-                        break;
+                    OnMatchStart?.Invoke(rawMessage);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[MessageHandler] Error handling message: {ex.Message}");
+                Console.WriteLine($"[Lỗi đọc tin nhắn mạng]: {ex.Message}");
             }
         }
     }

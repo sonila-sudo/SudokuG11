@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Sudoku.client\\Sudoku.client\\Sudoku.client.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Sudoku.server\\Sudoku.server.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
