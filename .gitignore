@@ -72,3 +72,8 @@ Testing/
 /CODE/Sudoku/obj
 /CODE/Sudoku/obj
 /CODE/Sudoku/bin
+/CODE/Sudoku.client/obj
+/CODE/Sudoku.Shared/obj
+/CODE/Sudoku.server/obj
+/CODE/Sudoku.client/Sudoku.client/obj
+/CODE/Sudoku.client/Sudoku.client/bin
