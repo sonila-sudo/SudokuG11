@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "..\\..\\..\\..\\..\\hson project\\Sudoku Multiplayer\\Sudoku.Client\\Sudoku.Client.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\..\\..\\..\\..\\hson project\\Sudoku Multiplayer\\Sudoku.Server\\Sudoku.Server.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "..\\..\\..\\..\\..\\hson project\\Sudoku Multiplayer\\Sudoku.Shared\\Sudoku.Shared.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
