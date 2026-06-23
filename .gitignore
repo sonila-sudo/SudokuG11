@@ -1,74 +1,32 @@
-# Prerequisites
-*.d
+## -----------------------------------------------------------------------------
+## .NET / VISUAL STUDIO STANDARD .GITIGNORE
+## Dành cho dự án Sudoku Multiplayer
+## -----------------------------------------------------------------------------
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+# Bỏ qua các thư mục chứa mã máy do Visual Studio tự sinh ra
+bin/
+obj/
 
-# Precompiled Headers
-*.gch
-*.pch
+# Bỏ qua các thư mục và cấu hình cá nhân của Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
 
-# Linker files
+# Bỏ qua các file nhị phân, file thực thi và file debug
+*.exe
+*.dll
+*.pdb
 *.ilk
 
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-*.so.*
-
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# Build directories
-build/
-Build/
-build-*/
-
-# CMake generated files
-CMakeFiles/
-CMakeCache.txt
-cmake_install.cmake
-Makefile
-install_manifest.txt
-compile_commands.json
-
-# Temporary files
-*.tmp
+# Bỏ qua các file tạm, file log
 *.log
+*.tmp
 *.bak
 *.swp
+*.cache/
 
-# vcpkg
-vcpkg_installed/
-
-# debug information files
-*.dwo
-
-# test output & cache
-Testing/
-.cache/
-/CODE/.vs
-/CODE/Sudoku/obj
-/CODE/Sudoku/obj
-/CODE/Sudoku/obj
-/CODE/Sudoku/bin
+# Bỏ qua cơ sở dữ liệu SQLite cục bộ (Nếu bạn không muốn push file db lên Git)
+# Bỏ dấu # ở dòng dưới nếu muốn mỗi người tự tạo DB riêng khi chạy Server
+# *.db 
+# *.sqlite
