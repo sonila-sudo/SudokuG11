@@ -28,43 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
+            lblIP = new Label();
+            lblPort = new Label();
+            lblPlayer = new Label();
             txtIP = new TextBox();
             txtPort = new TextBox();
             txtName = new TextBox();
-            btnConnect = new Button();
+            btnMatch = new Button();
             lblStatus = new Label();
             lblTitle = new Label();
             SuspendLayout();
             // 
-            // label1
+            // lblIP
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(86, 143);
-            label1.Name = "label1";
-            label1.Size = new Size(69, 20);
-            label1.TabIndex = 0;
-            label1.Text = "IP Server:";
+            lblIP.AutoSize = true;
+            lblIP.Location = new Point(86, 143);
+            lblIP.Name = "lblIP";
+            lblIP.Size = new Size(69, 20);
+            lblIP.TabIndex = 0;
+            lblIP.Text = "IP Server:";
             // 
-            // label2
+            // lblPort
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(117, 186);
-            label2.Name = "label2";
-            label2.Size = new Size(38, 20);
-            label2.TabIndex = 2;
-            label2.Text = "Port:";
+            lblPort.AutoSize = true;
+            lblPort.Location = new Point(117, 186);
+            lblPort.Name = "lblPort";
+            lblPort.Size = new Size(38, 20);
+            lblPort.TabIndex = 2;
+            lblPort.Text = "Port:";
             // 
-            // label3
+            // lblPlayer
             // 
-            label3.AutoSize = true;
-            label3.Location = new Point(45, 232);
-            label3.Name = "label3";
-            label3.Size = new Size(110, 20);
-            label3.TabIndex = 4;
-            label3.Text = "Tên người chơi:";
+            lblPlayer.AutoSize = true;
+            lblPlayer.Location = new Point(45, 232);
+            lblPlayer.Name = "lblPlayer";
+            lblPlayer.Size = new Size(110, 20);
+            lblPlayer.TabIndex = 4;
+            lblPlayer.Text = "Tên người chơi:";
             // 
             // txtIP
             // 
@@ -92,19 +92,19 @@
             txtName.Size = new Size(125, 27);
             txtName.TabIndex = 7;
             // 
-            // btnConnect
+            // btnMatch
             // 
-            btnConnect.BackColor = Color.LightCyan;
-            btnConnect.FlatAppearance.MouseOverBackColor = Color.Azure;
-            btnConnect.FlatStyle = FlatStyle.Flat;
-            btnConnect.Font = new Font("Segoe UI", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnConnect.Location = new Point(175, 357);
-            btnConnect.Name = "btnConnect";
-            btnConnect.Size = new Size(369, 65);
-            btnConnect.TabIndex = 8;
-            btnConnect.Text = "Tìm Trận / Match";
-            btnConnect.UseVisualStyleBackColor = false;
-            btnConnect.Click += button1_Click;
+            btnMatch.BackColor = Color.LightCyan;
+            btnMatch.FlatAppearance.MouseOverBackColor = Color.Azure;
+            btnMatch.FlatStyle = FlatStyle.Flat;
+            btnMatch.Font = new Font("Segoe UI", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnMatch.Location = new Point(175, 357);
+            btnMatch.Name = "btnMatch";
+            btnMatch.Size = new Size(369, 65);
+            btnMatch.TabIndex = 8;
+            btnMatch.Text = "Tìm Trận / Match";
+            btnMatch.UseVisualStyleBackColor = false;
+            btnMatch.Click += button1_Click;
             // 
             // lblStatus
             // 
@@ -121,7 +121,7 @@
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 36F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.Location = new Point(3, 9);
+            lblTitle.Location = new Point(66, 22);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(694, 81);
             lblTitle.TabIndex = 10;
@@ -135,29 +135,30 @@
             ClientSize = new Size(709, 546);
             Controls.Add(lblTitle);
             Controls.Add(lblStatus);
-            Controls.Add(btnConnect);
+            Controls.Add(btnMatch);
             Controls.Add(txtName);
             Controls.Add(txtPort);
             Controls.Add(txtIP);
-            Controls.Add(label3);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(lblPlayer);
+            Controls.Add(lblPort);
+            Controls.Add(lblIP);
             Cursor = Cursors.Hand;
             Name = "LoginForm";
             Text = "Form1";
+            Load += LoginForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
-        private Label label2;
-        private Label label3;
+        private Label lblIP;
+        private Label lblPort;
+        private Label lblPlayer;
         private TextBox txtIP;
         private TextBox txtPort;
         private TextBox txtName;
-        private Button btnConnect;
+        private Button btnMatch;
         private Label lblStatus;
         private Label lblTitle;
     }
