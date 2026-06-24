@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36616.10
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Client", "..\..\..\..\..\hson project\Sudoku Multiplayer\Sudoku.Client\Sudoku.Client.csproj", "{7936F7ED-D6D8-D156-272C-074124A0AAFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Client", "Sudoku.Client\Sudoku.Client.csproj", "{7936F7ED-D6D8-D156-272C-074124A0AAFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Server", "..\..\..\..\..\hson project\Sudoku Multiplayer\Sudoku.Server\Sudoku.Server.csproj", "{04896233-932D-F2EC-5EF0-950C9DB6B0EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Server", "Sudoku.Server\Sudoku.Server.csproj", "{04896233-932D-F2EC-5EF0-950C9DB6B0EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Shared", "..\..\..\..\..\hson project\Sudoku Multiplayer\Sudoku.Shared\Sudoku.Shared.csproj", "{5CE816A1-C24B-B168-0C4F-2BE3650C3B68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Shared", "Sudoku.Shared\Sudoku.Shared.csproj", "{5CE816A1-C24B-B168-0C4F-2BE3650C3B68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
