@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using System.Text;
+using Sudoku.Shared.Models;
 using Sudoku.Shared.Network;
 
 namespace Sudoku.Client.Network;
@@ -108,6 +109,31 @@ public sealed class GameClient : IDisposable
     Losses = response.Losses;
     TotalGames = response.TotalGames;
     return (true, response.Message ?? "Đăng nhập thành công.");
+  }
+
+  public void ApplyStats(int wins, int losses, int totalGames)
+  {
+    Wins = wins;
+    Losses = losses;
+    TotalGames = totalGames;
+  }
+
+  public async Task<(bool Success, string Message, List<MatchHistoryEntry> History)> FetchMatchHistoryAsync()
+  {
+    var response = await SendAndWaitAsync(
+      new NetworkMessage { Type = MessageType.GetMatchHistory },
+      MessageType.GetMatchHistoryResponse);
+
+    return (response.Success, response.Message ?? string.Empty, response.History ?? []);
+  }
+
+  public async Task<(bool Success, string Message, List<LeaderboardEntry> Leaderboard)> FetchLeaderboardAsync(int emptyCells)
+  {
+    var response = await SendAndWaitAsync(
+      new NetworkMessage { Type = MessageType.GetLeaderboard, EmptyCells = emptyCells },
+      MessageType.GetLeaderboardResponse);
+
+    return (response.Success, response.Message ?? string.Empty, response.Leaderboard ?? []);
   }
 
   private async Task ReadLoopAsync(CancellationToken ct)
