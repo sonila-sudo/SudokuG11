@@ -89,6 +89,31 @@ public sealed class SudokuTcpServer
 
   private async Task ProcessMessageAsync(ClientSession session, NetworkMessage message)
   {
+    try
+    {
+      await DispatchMessageAsync(session, message);
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine($"Lỗi xử lý {message.Type}: {ex}");
+      try
+      {
+        await session.SendAsync(new NetworkMessage
+        {
+          Type = MessageType.Error,
+          Success = false,
+          Message = "Server gặp lỗi khi xử lý yêu cầu."
+        });
+      }
+      catch
+      {
+        // client disconnected
+      }
+    }
+  }
+
+  private async Task DispatchMessageAsync(ClientSession session, NetworkMessage message)
+  {
     switch (message.Type)
     {
       case MessageType.Register:
@@ -113,7 +138,19 @@ public sealed class SudokuTcpServer
         await HandleGameCompleteAsync(session, message);
         break;
       case MessageType.Surrender:
-        await HandleSurrenderAsync(session);
+        await HandleSurrenderAsync(session, message);
+        break;
+      case MessageType.TooManyMistakes:
+        await HandleTooManyMistakesAsync(session, message);
+        break;
+      case MessageType.LeaveGame:
+        await HandleLeaveGameAsync(session);
+        break;
+      case MessageType.GetMatchHistory:
+        await HandleGetMatchHistoryAsync(session);
+        break;
+      case MessageType.GetLeaderboard:
+        await HandleGetLeaderboardAsync(session, message);
         break;
       default:
         await session.SendAsync(new NetworkMessage
@@ -325,7 +362,7 @@ public sealed class SudokuTcpServer
 
   private async Task HandleCellUpdateAsync(ClientSession session, NetworkMessage message)
   {
-    if (session.CurrentRoom == null)
+    if (session.CurrentRoom == null || session.CurrentRoom.IsFinished)
       return;
 
     var room = session.CurrentRoom;
@@ -352,7 +389,11 @@ public sealed class SudokuTcpServer
       return;
     }
 
-    await session.CurrentRoom.FinishMatchAsync(session, $"{session.Username} đã hoàn thành Sudoku!");
+    await session.CurrentRoom.FinishMatchAsync(
+      session,
+      $"{session.Username} đã hoàn thành Sudoku!",
+      message.MyElapsedMs,
+      null);
   }
 
   private static bool IsSolved(int[,] board, int[,] solution)
@@ -364,14 +405,105 @@ public sealed class SudokuTcpServer
     return true;
   }
 
-  private async Task HandleSurrenderAsync(ClientSession session)
+  private async Task HandleSurrenderAsync(ClientSession session, NetworkMessage message)
+  {
+    if (session.CurrentRoom == null || session.CurrentRoom.IsFinished)
+      return;
+
+    var opponent = session.CurrentRoom.GetOpponent(session);
+    if (opponent == null)
+      return;
+
+    await session.CurrentRoom.FinishMatchAsync(
+      opponent,
+      $"{session.Username} đã đầu hàng.",
+      null,
+      message.MyElapsedMs > 0 ? message.MyElapsedMs : null);
+  }
+
+  private async Task HandleLeaveGameAsync(ClientSession session)
   {
     if (session.CurrentRoom == null)
       return;
 
+    var room = session.CurrentRoom;
+    if (room.IsStarted && !room.IsFinished)
+    {
+      Console.WriteLine($"[Game] {session.Username} rời trận giữa chừng.");
+      await room.NotifyOpponentDisconnectedAsync(session);
+      _rooms.TryRemove(room.RoomCode, out _);
+      return;
+    }
+
+    if (!room.IsStarted)
+    {
+      _rooms.TryRemove(room.RoomCode, out _);
+      session.CurrentRoom = null;
+    }
+  }
+
+  private async Task HandleTooManyMistakesAsync(ClientSession session, NetworkMessage message)
+  {
+    if (session.CurrentRoom == null || session.CurrentRoom.IsFinished)
+      return;
+
     var opponent = session.CurrentRoom.GetOpponent(session);
-    if (opponent != null)
-      await session.CurrentRoom.FinishMatchAsync(opponent, $"{session.Username} đã đầu hàng.");
+    if (opponent == null)
+      return;
+
+    Console.WriteLine($"[Game] {session.Username} sai quá 3 lỗi — {opponent.Username} thắng.");
+
+    await session.CurrentRoom.FinishMatchAsync(
+      opponent,
+      $"{session.Username} đã sai quá 3 lỗi.",
+      null,
+      message.MyElapsedMs > 0 ? message.MyElapsedMs : null);
+  }
+
+  private async Task HandleGetMatchHistoryAsync(ClientSession session)
+  {
+    if (session.PlayerId == 0)
+    {
+      await session.SendAsync(new NetworkMessage
+      {
+        Type = MessageType.GetMatchHistoryResponse,
+        Success = false,
+        Message = "Bạn cần đăng nhập trước."
+      });
+      return;
+    }
+
+    var history = _database.GetMatchHistory(session.PlayerId);
+    await session.SendAsync(new NetworkMessage
+    {
+      Type = MessageType.GetMatchHistoryResponse,
+      Success = true,
+      History = history
+    });
+  }
+
+  private async Task HandleGetLeaderboardAsync(ClientSession session, NetworkMessage message)
+  {
+    if (session.PlayerId == 0)
+    {
+      await session.SendAsync(new NetworkMessage
+      {
+        Type = MessageType.GetLeaderboardResponse,
+        Success = false,
+        Message = "Bạn cần đăng nhập trước."
+      });
+      return;
+    }
+
+    var emptyCells = message.EmptyCells > 0 ? message.EmptyCells : _defaultEmptyCells;
+    var leaderboard = _database.GetLeaderboard(emptyCells);
+    await session.SendAsync(new NetworkMessage
+    {
+      Type = MessageType.GetLeaderboardResponse,
+      Success = true,
+      EmptyCells = emptyCells,
+      Leaderboard = leaderboard
+    });
   }
 
   private async Task CleanupSessionAsync(ClientSession session)
@@ -388,9 +520,17 @@ public sealed class SudokuTcpServer
 
     if (session.CurrentRoom != null)
     {
-      await session.CurrentRoom.NotifyOpponentDisconnectedAsync(session);
-      if (!session.CurrentRoom.IsStarted)
-        _rooms.TryRemove(session.CurrentRoom.RoomCode, out _);
+      var room = session.CurrentRoom;
+      if (room.IsStarted && !room.IsFinished)
+      {
+        await room.NotifyOpponentDisconnectedAsync(session);
+        _rooms.TryRemove(room.RoomCode, out _);
+      }
+      else if (!room.IsStarted)
+      {
+        _rooms.TryRemove(room.RoomCode, out _);
+        session.CurrentRoom = null;
+      }
     }
 
     session.LinkedCts.Cancel();
