@@ -36,6 +36,9 @@ partial class LobbyForm
     txtRoomCode = new TextBox();
     btnCreateRoom = new Button();
     btnJoinRoom = new Button();
+    pnlExtras = new Panel();
+    btnMatchHistory = new Button();
+    btnLeaderboard = new Button();
     pnlStatusBar = new Panel();
     pnlStatusDot = new Panel();
     lblStatus = new Label();
@@ -78,6 +81,25 @@ partial class LobbyForm
     pnlMain.Controls.Add(cboDifficulty);
     pnlMain.Controls.Add(lblDifficulty);
     pnlMain.Paint += CardBorder;
+
+    pnlExtras.BackColor = UiTheme.Card;
+    pnlExtras.Location = new Point(24, 512);
+    pnlExtras.Size = new Size(452, 64);
+    pnlExtras.Controls.Add(btnLeaderboard);
+    pnlExtras.Controls.Add(btnMatchHistory);
+    pnlExtras.Paint += CardBorder;
+
+    btnMatchHistory.Location = new Point(20, 14);
+    btnMatchHistory.Size = new Size(200, 36);
+    btnMatchHistory.Text = "Lịch sử đấu";
+    btnMatchHistory.Click += btnMatchHistory_Click;
+    UiTheme.StyleSecondaryButton(btnMatchHistory);
+
+    btnLeaderboard.Location = new Point(232, 14);
+    btnLeaderboard.Size = new Size(200, 36);
+    btnLeaderboard.Text = "Bảng xếp hạng";
+    btnLeaderboard.Click += btnLeaderboard_Click;
+    UiTheme.StyleSecondaryButton(btnLeaderboard);
 
     lblDifficulty.AutoSize = true;
     lblDifficulty.Font = UiTheme.LabelFont;
@@ -124,7 +146,7 @@ partial class LobbyForm
     btnJoinRoom.Click += btnJoinRoom_Click;
     UiTheme.StyleSecondaryButton(btnJoinRoom);
 
-    pnlStatusBar.Location = new Point(24, 516);
+    pnlStatusBar.Location = new Point(24, 588);
     pnlStatusBar.Size = new Size(452, 32);
     pnlStatusBar.Controls.Add(lblStatus);
     pnlStatusBar.Controls.Add(pnlStatusDot);
@@ -141,15 +163,16 @@ partial class LobbyForm
 
     AutoScaleDimensions = new SizeF(96F, 96F);
     AutoScaleMode = AutoScaleMode.Dpi;
-    ClientSize = new Size(500, 560);
+    ClientSize = new Size(500, 636);
     Controls.Add(pnlStatusBar);
+    Controls.Add(pnlExtras);
     Controls.Add(pnlMain);
     Controls.Add(pnlStats);
     Controls.Add(pnlHeader);
     Font = new Font("Segoe UI", 10F);
     FormBorderStyle = FormBorderStyle.FixedSingle;
     MaximizeBox = false;
-    MinimumSize = new Size(500, 560);
+    MinimumSize = new Size(500, 636);
     StartPosition = FormStartPosition.CenterScreen;
     Text = "Sudoku Multiplayer — Sảnh chờ";
     FormClosed += LobbyForm_FormClosed;
@@ -210,6 +233,9 @@ partial class LobbyForm
   private TextBox txtRoomCode;
   private Button btnCreateRoom;
   private Button btnJoinRoom;
+  private Panel pnlExtras;
+  private Button btnMatchHistory;
+  private Button btnLeaderboard;
   private Panel pnlStatusBar;
   private Panel pnlStatusDot;
   private Label lblStatus;

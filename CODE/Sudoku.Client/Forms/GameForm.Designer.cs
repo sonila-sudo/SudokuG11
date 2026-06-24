@@ -30,6 +30,9 @@ partial class GameForm
     pnlOpponent = new Panel();
     lblOpponentCaption = new Label();
     lblOpponent = new Label();
+    pnlMistakes = new Panel();
+    lblMistakesCaption = new Label();
+    lblMistakes = new Label();
     lblGameStatus = new Label();
     btnSurrender = new Button();
     SuspendLayout();
@@ -44,6 +47,7 @@ partial class GameForm
     pnlSidebar.Size = new Size(280, 590);
     pnlSidebar.Controls.Add(btnSurrender);
     pnlSidebar.Controls.Add(lblGameStatus);
+    pnlSidebar.Controls.Add(pnlMistakes);
     pnlSidebar.Controls.Add(pnlOpponent);
     pnlSidebar.Controls.Add(pnlProgress);
     pnlSidebar.Controls.Add(pnlTimer);
@@ -129,10 +133,28 @@ partial class GameForm
     lblOpponent.Location = new Point(14, 34);
     lblOpponent.Text = "—";
 
+    pnlMistakes.BackColor = Color.FromArgb(254, 242, 242);
+    pnlMistakes.Location = new Point(20, 404);
+    pnlMistakes.Size = new Size(240, 72);
+    pnlMistakes.Controls.Add(lblMistakes);
+    pnlMistakes.Controls.Add(lblMistakesCaption);
+
+    lblMistakesCaption.AutoSize = true;
+    lblMistakesCaption.Font = UiTheme.LabelFont;
+    lblMistakesCaption.ForeColor = UiTheme.TextMuted;
+    lblMistakesCaption.Location = new Point(14, 10);
+    lblMistakesCaption.Text = "Lỗi sai";
+
+    lblMistakes.AutoSize = true;
+    lblMistakes.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+    lblMistakes.ForeColor = UiTheme.Danger;
+    lblMistakes.Location = new Point(14, 34);
+    lblMistakes.Text = "0 / 3";
+
     lblGameStatus.AutoSize = true;
     lblGameStatus.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
     lblGameStatus.ForeColor = UiTheme.Success;
-    lblGameStatus.Location = new Point(20, 408);
+    lblGameStatus.Location = new Point(20, 494);
     lblGameStatus.MaximumSize = new Size(240, 0);
     lblGameStatus.Text = "● Đang chơi...";
 
@@ -151,6 +173,7 @@ partial class GameForm
     StartPosition = FormStartPosition.CenterScreen;
     Text = "Sudoku Multiplayer — Trận đấu";
     Load += GameForm_Load;
+    FormClosing += GameForm_FormClosing;
     FormClosed += GameForm_FormClosed;
     ResumeLayout(false);
     PerformLayout();
@@ -171,6 +194,9 @@ partial class GameForm
   private Panel pnlOpponent;
   private Label lblOpponentCaption;
   private Label lblOpponent;
+  private Panel pnlMistakes;
+  private Label lblMistakesCaption;
+  private Label lblMistakes;
   private Label lblGameStatus;
   private Button btnSurrender;
 }

@@ -92,8 +92,46 @@ public partial class LobbyForm : Form
 
     Hide();
     var game = new GameForm(_client, message);
-    game.FormClosed += (_, _) => Close();
+    game.FormClosed += (_, _) => ReturnFromGame();
     game.Show();
+  }
+
+  private void ReturnFromGame()
+  {
+    _gameStarted = false;
+    btnFindMatch.Enabled = true;
+    lblWins.Text = _client.Wins.ToString();
+    lblLosses.Text = _client.Losses.ToString();
+    lblTotal.Text = _client.TotalGames.ToString();
+    SetStatus("Sẵn sàng.");
+    Show();
+    Activate();
+  }
+
+  private async void btnMatchHistory_Click(object sender, EventArgs e)
+  {
+    try
+    {
+      var (success, message, history) = await _client.FetchMatchHistoryAsync();
+      if (!success)
+      {
+        MessageBox.Show(message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        return;
+      }
+
+      using var form = new MatchHistoryForm(history);
+      form.ShowDialog(this);
+    }
+    catch (Exception ex)
+    {
+      MessageBox.Show(ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+  }
+
+  private void btnLeaderboard_Click(object sender, EventArgs e)
+  {
+    using var form = new LeaderboardForm(_client);
+    form.ShowDialog(this);
   }
 
   private int GetDifficulty() =>

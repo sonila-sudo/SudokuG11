@@ -9,6 +9,7 @@ namespace Sudoku.Client.Forms;
 public partial class GameForm : Form
 {
   private const int CellSize = 62;
+  private const int MaxMistakes = 3;
 
   private readonly GameClient _client;
   private readonly NetworkMessage _startMessage;
@@ -22,10 +23,12 @@ public partial class GameForm : Form
 
   private bool _gameEnded;
   private bool _awaitingGameResult;
+  private bool _endGameHandled;
   private bool _suppressTextChange;
   private int _totalEmptyCells;
   private int _myCorrectCells;
   private int _opponentCorrectCells;
+  private int _mistakeCount;
   private string _opponentName = "Đối thủ";
 
   private readonly Color _colorDefaultBack = Color.White;
@@ -76,6 +79,8 @@ public partial class GameForm : Form
     _solvedCells.Clear();
     _myCorrectCells = 0;
     _opponentCorrectCells = 0;
+    _mistakeCount = 0;
+    UpdateMistakeLabel();
     progressMy.Maximum = Math.Max(1, _totalEmptyCells);
     progressOpponent.Maximum = Math.Max(1, _totalEmptyCells);
 
@@ -272,6 +277,9 @@ public partial class GameForm : Form
 
   private void RejectWrongMove(TextBox txt, int row, int col)
   {
+    _mistakeCount++;
+    UpdateMistakeLabel();
+
     _suppressTextChange = true;
     DetachCellHandlers(txt);
     txt.Text = string.Empty;
@@ -280,8 +288,14 @@ public partial class GameForm : Form
     _suppressTextChange = false;
 
     txt.BackColor = Color.FromArgb(254, 226, 226);
-    lblGameStatus.Text = "● Số sai — thử lại!";
+    lblGameStatus.Text = $"● Số sai — {_mistakeCount}/{MaxMistakes} lỗi!";
     lblGameStatus.ForeColor = UiTheme.Danger;
+
+    if (_mistakeCount >= MaxMistakes)
+    {
+      _ = TryEliminateByMistakesAsync();
+      return;
+    }
 
     var revertTimer = new System.Windows.Forms.Timer { Interval = 350 };
     revertTimer.Tick += (_, _) =>
@@ -296,6 +310,97 @@ public partial class GameForm : Form
       }
     };
     revertTimer.Start();
+  }
+
+  private void UpdateMistakeLabel()
+  {
+    lblMistakes.Text = $"{_mistakeCount} / {MaxMistakes}";
+    lblMistakes.ForeColor = _mistakeCount >= MaxMistakes - 1 ? UiTheme.Danger : UiTheme.Text;
+  }
+
+  private async Task TryEliminateByMistakesAsync()
+  {
+    if (_gameEnded || _awaitingGameResult)
+      return;
+
+    _awaitingGameResult = true;
+    _gameEnded = true;
+    _stopwatch.Stop();
+    _timer.Stop();
+    lblGameStatus.Text = "● Đang xác nhận kết quả...";
+    lblGameStatus.ForeColor = UiTheme.Danger;
+    DisableBoardInput();
+
+    try
+    {
+      await _client.SendAsync(new NetworkMessage
+      {
+        Type = MessageType.TooManyMistakes,
+        MyElapsedMs = _stopwatch.ElapsedMilliseconds
+      });
+    }
+    catch (Exception ex)
+    {
+      _awaitingGameResult = false;
+      MessageBox.Show($"Không gửi được kết quả: {ex.Message}", "Lỗi",
+        MessageBoxButtons.OK, MessageBoxIcon.Error);
+      ShowLocalLossDialog($"{_opponentName} đã THẮNG vì bạn sai quá 3 lỗi.");
+    }
+  }
+
+  private void ShowLocalLossDialog(string reason)
+  {
+    if (_endGameHandled)
+      return;
+
+    _endGameHandled = true;
+    _awaitingGameResult = false;
+    _gameEnded = true;
+    _stopwatch.Stop();
+    _timer.Stop();
+    DisableBoardInput();
+    lblGameStatus.Text = "● Bạn thua!";
+    lblGameStatus.ForeColor = UiTheme.Danger;
+
+    MessageBox.Show(
+      $"Bạn đã THUA.\n{_opponentName} đã THẮNG.\n\nLý do: {reason}",
+      "Kết thúc trận đấu",
+      MessageBoxButtons.OK,
+      MessageBoxIcon.Warning);
+    Close();
+  }
+
+  private void ShowLocalWinDialog(string reason)
+  {
+    if (_endGameHandled)
+      return;
+
+    _endGameHandled = true;
+    _awaitingGameResult = false;
+    _gameEnded = true;
+    _stopwatch.Stop();
+    _timer.Stop();
+    DisableBoardInput();
+    lblGameStatus.Text = "● Bạn thắng!";
+    lblGameStatus.ForeColor = UiTheme.Success;
+
+    MessageBox.Show(
+      $"Chúc mừng! Bạn đã THẮNG.\n{_opponentName} đã THUA.\n\nLý do: {reason}",
+      "Kết thúc trận đấu",
+      MessageBoxButtons.OK,
+      MessageBoxIcon.Information);
+    Close();
+  }
+
+  private void DisableBoardInput()
+  {
+    for (var r = 0; r < 9; r++)
+    for (var c = 0; c < 9; c++)
+    {
+      if (!_givenCells.Contains((r, c)))
+        _sudokuCells[r, c].ReadOnly = true;
+    }
+    btnSurrender.Enabled = false;
   }
 
   private async Task TryCompleteGameAsync()
@@ -378,26 +483,36 @@ public partial class GameForm : Form
           EndGame(message);
           break;
         case MessageType.Error:
-          if (_awaitingGameResult)
+          if (_awaitingGameResult && !_gameEnded)
           {
             _awaitingGameResult = false;
             _stopwatch.Start();
+            _timer.Start();
             lblGameStatus.Text = "● Đang chơi...";
             lblGameStatus.ForeColor = UiTheme.Success;
             MessageBox.Show(message.Message ?? "Bảng chưa hợp lệ.", "Chưa thắng",
               MessageBoxButtons.OK, MessageBoxIcon.Warning);
           }
+          else if (_awaitingGameResult && _gameEnded)
+          {
+            ShowLocalLossDialog(message.Message ?? "Server không xác nhận được kết quả.");
+          }
           break;
         case MessageType.OpponentDisconnected:
-          if (!_gameEnded)
-          {
-            _gameEnded = true;
-            _stopwatch.Stop();
-            _timer.Stop();
-            MessageBox.Show(message.Message ?? "Đối thủ đã ngắt kết nối.", "Kết thúc",
-              MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Close();
-          }
+          if (_endGameHandled)
+            break;
+
+          _endGameHandled = true;
+          _gameEnded = true;
+          _awaitingGameResult = false;
+          _stopwatch.Stop();
+          _timer.Stop();
+          DisableBoardInput();
+          lblGameStatus.Text = "● Đối thủ đã rời trận";
+          lblGameStatus.ForeColor = UiTheme.Danger;
+          MessageBox.Show(message.Message ?? "Đối thủ đã rời trận đấu.", "Kết thúc",
+            MessageBoxButtons.OK, MessageBoxIcon.Information);
+          Close();
           break;
       }
     });
@@ -405,22 +520,30 @@ public partial class GameForm : Form
 
   private void EndGame(NetworkMessage message)
   {
-    _awaitingGameResult = false;
-    if (_gameEnded && message.WinnerName != _client.Username)
+    if (_endGameHandled)
       return;
 
+    _endGameHandled = true;
+    _awaitingGameResult = false;
     _gameEnded = true;
     _stopwatch.Stop();
     _timer.Stop();
+    DisableBoardInput();
 
     var won = message.WinnerName == _client.Username;
-    lblGameStatus.Text = won ? "● Bạn thắng!" : $"● Thua — {message.WinnerName}";
+    lblGameStatus.Text = won ? "● Bạn thắng!" : "● Bạn thua!";
     lblGameStatus.ForeColor = won ? UiTheme.Success : UiTheme.Danger;
+
+    _client.ApplyStats(message.Wins, message.Losses, message.TotalGames);
+
+    var winnerName = message.WinnerName ?? "—";
+    var loserName = message.LoserName ?? message.OpponentName ?? _opponentName;
+    var reason = message.Message ?? "Kết thúc trận đấu.";
 
     MessageBox.Show(
       won
-        ? $"Chúc mừng! Bạn đã thắng.\nThống kê: {message.Wins} thắng / {message.Losses} thua / {message.TotalGames} trận."
-        : $"Bạn thua. Người thắng: {message.WinnerName}\nLý do: {message.Message}",
+        ? $"Chúc mừng! Bạn đã THẮNG.\n{loserName} đã THUA.\n\nLý do: {reason}\n\nThống kê: {message.Wins} thắng / {message.Losses} thua / {message.TotalGames} trận."
+        : $"Bạn đã THUA.\n{winnerName} đã THẮNG.\n\nLý do: {reason}\n\nThống kê: {message.Wins} thắng / {message.Losses} thua / {message.TotalGames} trận.",
       "Kết thúc trận đấu",
       MessageBoxButtons.OK,
       won ? MessageBoxIcon.Information : MessageBoxIcon.Warning);
@@ -443,6 +566,9 @@ public partial class GameForm : Form
 
   private async void btnSurrender_Click(object sender, EventArgs e)
   {
+    if (_gameEnded || _awaitingGameResult)
+      return;
+
     var result = MessageBox.Show(
       "Bạn có chắc muốn đầu hàng?",
       "Xác nhận",
@@ -452,20 +578,42 @@ public partial class GameForm : Form
     if (result != DialogResult.Yes)
       return;
 
+    _awaitingGameResult = true;
     _gameEnded = true;
     _stopwatch.Stop();
     _timer.Stop();
+    DisableBoardInput();
+    lblGameStatus.Text = "● Đang xác nhận đầu hàng...";
+    lblGameStatus.ForeColor = UiTheme.Danger;
 
     try
     {
-      await _client.SendAsync(new NetworkMessage { Type = MessageType.Surrender });
+      await _client.SendAsync(new NetworkMessage
+      {
+        Type = MessageType.Surrender,
+        MyElapsedMs = _stopwatch.ElapsedMilliseconds
+      });
     }
     catch
     {
       // server may already be gone
     }
+  }
 
-    Close();
+  private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
+  {
+    if (_endGameHandled)
+      return;
+
+    try
+    {
+      var task = _client.SendAsync(new NetworkMessage { Type = MessageType.LeaveGame });
+      task.Wait(TimeSpan.FromSeconds(2));
+    }
+    catch
+    {
+      // connection may already be gone
+    }
   }
 
   private void GameForm_FormClosed(object sender, FormClosedEventArgs e)
