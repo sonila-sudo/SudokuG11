@@ -1,5 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Sudoku.Shared.Models;
 
 namespace Sudoku.Shared.Network;
 
@@ -29,6 +30,9 @@ public class NetworkMessage
   public int TotalGames { get; set; }
   public int CorrectCells { get; set; }
   public int TotalCells { get; set; }
+  public string? LoserName { get; set; }
+  public List<MatchHistoryEntry>? History { get; set; }
+  public List<LeaderboardEntry>? Leaderboard { get; set; }
 
   private static readonly JsonSerializerOptions Options = new()
   {

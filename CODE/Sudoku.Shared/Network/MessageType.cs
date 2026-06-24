@@ -19,6 +19,12 @@ public enum MessageType
     GameComplete,
     GameOver,
     Surrender,
+    TooManyMistakes,
+    LeaveGame,
     OpponentDisconnected,
+    GetMatchHistory,
+    GetMatchHistoryResponse,
+    GetLeaderboard,
+    GetLeaderboardResponse,
     Error
 }
