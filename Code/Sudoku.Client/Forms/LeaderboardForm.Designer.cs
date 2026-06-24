@@ -83,7 +83,6 @@ partial class LeaderboardForm
     btnClose.Location = new Point(660, 494);
     btnClose.Size = new Size(120, 40);
     btnClose.Text = "Đóng";
-    btnClose.Click += (_, _) => Close();
     UiTheme.StyleSecondaryButton(btnClose);
 
     AutoScaleDimensions = new SizeF(96F, 96F);

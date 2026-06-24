@@ -12,8 +12,6 @@ public partial class LoginForm : Form
   {
     _client = client;
     InitializeComponent();
-    UiTheme.ApplyFormStyle(this);
-
     pnlCard.Paint += (_, e) =>
     {
       using var pen = new Pen(UiTheme.Border);
@@ -25,6 +23,7 @@ public partial class LoginForm : Form
       using var pen = new Pen(UiTheme.Border);
       e.Graphics.DrawRectangle(pen, 0, 0, pnlServer.Width - 1, pnlServer.Height - 1);
     };
+    UiTheme.ApplyFormStyle(this);
   }
 
   private async void LoginForm_Load(object sender, EventArgs e)

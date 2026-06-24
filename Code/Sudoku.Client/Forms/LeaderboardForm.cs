@@ -12,6 +12,7 @@ public partial class LeaderboardForm : Form
   {
     _client = client;
     InitializeComponent();
+    btnClose.Click += (_, _) => Close();
     UiTheme.ApplyFormStyle(this);
     cboDifficulty.SelectedIndex = 1;
     cboDifficulty.SelectedIndexChanged += async (_, _) => await LoadLeaderboardAsync();

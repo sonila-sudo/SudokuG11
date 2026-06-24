@@ -8,6 +8,7 @@ public partial class MatchHistoryForm : Form
   public MatchHistoryForm(IReadOnlyList<MatchHistoryEntry> history)
   {
     InitializeComponent();
+    btnClose.Click += (_, _) => Close();
     UiTheme.ApplyFormStyle(this);
     LoadHistory(history);
   }

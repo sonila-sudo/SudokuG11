@@ -45,15 +45,13 @@ public partial class GameForm : Form
     _opponentName = startMessage.OpponentName ?? "Đối thủ";
     _totalEmptyCells = startMessage.TotalCells > 0 ? startMessage.TotalCells : startMessage.EmptyCells;
     InitializeComponent();
-    UiTheme.ApplyFormStyle(this);
-    lblOpponent.Text = _opponentName;
-
     pnlSidebar.Paint += (_, e) =>
     {
       using var pen = new Pen(UiTheme.Border);
       e.Graphics.DrawRectangle(pen, 0, 0, pnlSidebar.Width - 1, pnlSidebar.Height - 1);
     };
-
+    UiTheme.ApplyFormStyle(this);
+    lblOpponent.Text = _opponentName;
     _client.MessageReceived += OnMessageReceived;
     _client.Disconnected += OnDisconnected;
     _timer.Tick += (_, _) => UpdateTimerLabels();
