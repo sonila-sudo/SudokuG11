@@ -127,19 +127,19 @@ public sealed class GameRoom
     });
   }
 
-  public async Task FinishMatchAsync(ClientSession winner, string reason)
+  public async Task FinishMatchAsync(
+    ClientSession winner,
+    string reason,
+    long? winnerElapsedMs = null,
+    long? loserElapsedMs = null)
   {
+    ClientSession? host;
+    ClientSession? guest;
     lock (_lock)
     {
       if (IsFinished)
         return;
       IsFinished = true;
-    }
-
-    ClientSession? host;
-    ClientSession? guest;
-    lock (_lock)
-    {
       host = Host;
       guest = Guest;
     }
@@ -148,49 +148,98 @@ public sealed class GameRoom
       return;
 
     var loser = GetOpponent(winner);
-    var durationMs = (long)(DateTime.UtcNow - _startedAt).TotalMilliseconds;
-    _database.SaveMatch(host.PlayerId, guest.PlayerId, winner.PlayerId, durationMs, _emptyCells);
+    if (loser == null)
+      return;
 
-    var winnerStats = _database.GetStats(winner.PlayerId);
-    var gameOver = new NetworkMessage
+    var durationMs = (long)(DateTime.UtcNow - _startedAt).TotalMilliseconds;
+
+    long? hostDuration = null;
+    long? guestDuration = null;
+    if (host.SessionId == winner.SessionId)
+    {
+      hostDuration = winnerElapsedMs ?? durationMs;
+      guestDuration = loserElapsedMs;
+    }
+    else
+    {
+      guestDuration = winnerElapsedMs ?? durationMs;
+      hostDuration = loserElapsedMs;
+    }
+
+    try
+    {
+      _database.SaveMatch(
+        host.PlayerId,
+        guest.PlayerId,
+        winner.PlayerId,
+        durationMs,
+        _emptyCells,
+        hostDuration,
+        guestDuration);
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine($"Lỗi lưu trận: {ex.Message}");
+    }
+
+    try
+    {
+      await SendGameOverAsync(winner, winner, loser, reason);
+      await SendGameOverAsync(loser, winner, loser, reason);
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine($"Lỗi gửi GameOver: {ex.Message}");
+    }
+
+    host.CurrentRoom = null;
+    guest.CurrentRoom = null;
+  }
+
+  private async Task SendGameOverAsync(
+    ClientSession recipient,
+    ClientSession winner,
+    ClientSession loser,
+    string reason)
+  {
+    var stats = _database.GetStats(recipient.PlayerId);
+    var won = recipient.SessionId == winner.SessionId;
+
+    await recipient.SendAsync(new NetworkMessage
     {
       Type = MessageType.GameOver,
       Success = true,
       WinnerName = winner.Username,
+      LoserName = loser.Username,
+      OpponentName = won ? loser.Username : winner.Username,
       Message = reason,
-      Wins = winnerStats.Wins,
-      Losses = winnerStats.Losses,
-      TotalGames = winnerStats.TotalGames
-    };
-
-    await winner.SendAsync(gameOver);
-
-    if (loser != null)
-    {
-      var loserStats = _database.GetStats(loser.PlayerId);
-      await loser.SendAsync(new NetworkMessage
-      {
-        Type = MessageType.GameOver,
-        Success = true,
-        WinnerName = winner.Username,
-        Message = reason,
-        Wins = loserStats.Wins,
-        Losses = loserStats.Losses,
-        TotalGames = loserStats.TotalGames
-      });
-    }
+      Wins = stats.Wins,
+      Losses = stats.Losses,
+      TotalGames = stats.TotalGames
+    });
   }
 
   public async Task NotifyOpponentDisconnectedAsync(ClientSession disconnected)
   {
-    var opponent = GetOpponent(disconnected);
+    ClientSession? opponent;
+    lock (_lock)
+    {
+      if (IsFinished)
+        return;
+      IsFinished = true;
+      opponent = GetOpponent(disconnected);
+    }
+
     if (opponent == null)
       return;
 
     await opponent.SendAsync(new NetworkMessage
     {
       Type = MessageType.OpponentDisconnected,
-      Message = $"{disconnected.Username} đã ngắt kết nối."
+      Message = $"{disconnected.Username} đã rời trận đấu."
     });
+
+    disconnected.CurrentRoom = null;
+    opponent.CurrentRoom = null;
   }
 }
